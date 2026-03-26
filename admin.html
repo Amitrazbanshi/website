@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root { --gold: #c9a84c; --gold-light: #e8c97a; --dark: #0c0f14; --card: rgba(22,27,38,0.9); --text: #d4d8e0; --border: rgba(201,168,76,0.15); --r: 10px; }
+body { background: var(--dark); color: var(--text); font-family: 'DM Sans', sans-serif; padding: 40px; }
+.container { max-width: 1000px; margin: 0 auto; }
+h1, h2 { font-family: 'Playfair Display', serif; color: #fff; }
+h1 span { color: var(--gold); }
+.card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: var(--r); margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.form-group { margin-bottom: 15px; }
+label { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--gold); display: block; margin-bottom: 5px; text-transform: uppercase; }
+input, textarea, select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.08); color: var(--text) !important; padding: 12px; border-radius: 5px; outline: none; font-family: inherit; }
+select option { background: #222; }
+input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+button { background: var(--gold); color: #000; padding: 12px 25px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; font-family: inherit; transition: 0.3s; }
+button:hover { background: var(--gold-light); transform: translateY(-2px); }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); }
+.list-item:last-child { border-bottom: none; }
+.list-item .actions button { padding: 8px 15px; font-size: 0.85rem; margin-left: 5px; }
+.btn-del { background: #ff4757 !important; color: #fff !important; }
+.btn-del:hover { background: #ff6b81 !important; }
+.btn-edit { background: #555 !important; color: #fff !important; }
+.btn-edit:hover { background: #777 !important; }
+.admin-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+.admin-nav a { color: var(--gold); text-decoration: none; font-family: 'JetBrains Mono', monospace; cursor: pointer; }
+#edit-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; max-width:500px; width:90%; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+#edit-overlap { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; backdrop-filter:blur(5px); }
+</style>
+</head>
+<body>
+<div id="edit-overlap" onclick="closeEditGallery()"></div>
+<div id="edit-modal" class="card">
+  <h2>Edit Gallery Image</h2>
+  <input type="hidden" id="edit-gal-id">
+  <div class="form-group"><label>New Image (optional)</label><input type="file" id="edit-gal-file"></div>
+  <div class="form-group"><label>Alt Text</label><input type="text" id="edit-gal-alt"></div>
+  <div class="form-group"><label>Overlay Text</label><input type="text" id="edit-gal-overlay"></div>
+  <div style="display:flex; gap:10px;">
+    <button onclick="saveGalleryEdit()" style="flex:1;"><i class="fa fa-save"></i> Save Changes</button>
+    <button onclick="closeEditGallery()" style="flex:1; background:#444; color:#fff;">Cancel</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="admin-nav">
+    <h1>Admin <span>Dashboard</span></h1>
+    <div>
+      <a href="/"><i class="fa fa-home"></i> View Site</a> &nbsp; | &nbsp;
+      <a onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Add New Service</h2>
+    <div class="form-group">
+      <label>Icon</label>
+      <select id="svc-icon">
+        <option value="fa-laptop-code">💻 Laptop Code</option>
+        <option value="fa-mobile-alt">📱 Mobile</option>
+        <option value="fa-desktop">🖥️ Desktop</option>
+        <option value="fa-database">🗄️ Database</option>
+        <option value="fa-search">🔍 Search / SEO</option>
+        <option value="fa-headset">🎧 Support / Headset</option>
+        <option value="fa-server">🖧 Server</option>
+        <option value="fa-cloud">☁️ Cloud</option>
+        <option value="fa-paint-brush">🖌️ Design</option>
+        <option value="fa-star">⭐ Star</option>
+        <option value="fa-code">⌨️ Code</option>
+        <option value="fa-chart-line">📈 Analytics</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Title</label><input type="text" id="svc-title"></div>
+    <div class="form-group"><label>Description</label><textarea id="svc-desc" rows="3"></textarea></div>
+    <button onclick="addService()"><i class="fa fa-plus"></i> Add Service</button>
+  </div>
+  <div class="card">
+    <h2>Current Services</h2>
+    <div id="services-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Add Gallery Image</h2>
+    <div class="form-group"><label>Image File</label><input type="file" id="gal-file"></div>
+    <div class="form-group"><label>Alt Text</label><input type="text" id="gal-alt"></div>
+    <div class="form-group"><label>Overlay Text</label><input type="text" id="gal-overlay"></div>
+    <button onclick="addGallery()"><i class="fa fa-plus"></i> Add Image</button>
+  </div>
+  <div class="card">
+    <h2>Current Gallery</h2>
+    <div id="gallery-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Add New Skill</h2>
+    <div class="form-group"><label>Skill Name</label><input type="text" id="sk-name"></div>
+    <div class="form-group"><label>Percentage (e.g. 90)</label><input type="number" id="sk-pct" min="1" max="100"></div>
+    <button onclick="addSkill()"><i class="fa fa-plus"></i> Add Skill</button>
+  </div>
+  <div class="card">
+    <h2>Current Skills</h2>
+    <div id="skills-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Add New Testimonial</h2>
+    <div class="form-group"><label>Quote</label><textarea id="ts-quote" rows="3"></textarea></div>
+    <div class="form-group"><label>Avatar Initials (e.g. AS)</label><input type="text" id="ts-avatar"></div>
+    <div class="form-group"><label>Author Name</label><input type="text" id="ts-name"></div>
+    <div class="form-group"><label>Author Role</label><input type="text" id="ts-role"></div>
+    <button onclick="addTesti()"><i class="fa fa-plus"></i> Add Testimonial</button>
+  </div>
+  <div class="card">
+    <h2>Current Testimonials</h2>
+    <div id="testimonials-list"></div>
+  </div>
+
+</div>
+
+<script>
+const token = localStorage.getItem('adminToken');
+if (!token) window.location.href = '/login.html';
+
+async function loadData() {
+  const res = await fetch('/api/content');
+  const data = await res.json();
+  const svList = document.getElementById('services-list');
+  svList.innerHTML = '';
+  data.services.forEach(s => {
+    svList.innerHTML += `<div class="list-item"><div><strong><i class="fa ${s.icon}"></i> ${s.title}</strong><br><span style="font-size:0.85rem;color:#888">${s.desc}</span></div> <div class="actions"><button class="btn-del" onclick="delService(${s.id})"><i class="fa fa-trash"></i></button></div></div>`;
+  });
+  const glList = document.getElementById('gallery-list');
+  glList.innerHTML = '';
+  
+  const skList = document.getElementById('skills-list');
+  skList.innerHTML = '';
+  data.skills.forEach(s => {
+    skList.innerHTML += `<div class="list-item"><div><strong>${s.name}</strong> <span style="font-size:0.85rem;color:#888">${s.pct}%</span></div> <div class="actions"><button class="btn-del" onclick="delSkill(${s.id})"><i class="fa fa-trash"></i></button></div></div>`;
+  });
+
+  const tsList = document.getElementById('testimonials-list');
+  tsList.innerHTML = '';
+  data.testimonials.forEach(t => {
+    tsList.innerHTML += `<div class="list-item"><div><strong>${t.name}</strong> (${t.role})<br><span style="font-size:0.85rem;color:#888">"${t.quote}"</span></div> <div class="actions"><button class="btn-del" onclick="delTesti(${t.id})"><i class="fa fa-trash"></i></button></div></div>`;
+  });
+
+  data.gallery.forEach(g => {
+    glList.innerHTML += `<div class="list-item"><div><img src="${g.src}" style="height:50px; width:70px; object-fit:cover; border-radius:5px; margin-right:10px; vertical-align:middle;"> <strong>${g.alt}</strong> <span style="font-size:0.85rem;color:#888;">(${g.overlay})</span></div> 
+    <div class="actions">
+      <button class="btn-edit" onclick="openEditGallery(${g.id}, '${g.alt.replace(/'/g, "\\'")}', '${g.overlay.replace(/'/g, "\\'")}')"><i class="fa fa-edit"></i></button>
+      <button class="btn-del" onclick="delGallery(${g.id})"><i class="fa fa-trash"></i></button>
+    </div></div>`;
+  });
+}
+
+function openEditGallery(id, alt, overlay) {
+  document.getElementById('edit-gal-id').value = id;
+  document.getElementById('edit-gal-alt').value = alt;
+  document.getElementById('edit-gal-overlay').value = overlay;
+  document.getElementById('edit-modal').style.display = 'block';
+  document.getElementById('edit-overlap').style.display = 'block';
+}
+
+function closeEditGallery() {
+  document.getElementById('edit-modal').style.display = 'none';
+  document.getElementById('edit-overlap').style.display = 'none';
+}
+
+async function saveGalleryEdit() {
+  const id = document.getElementById('edit-gal-id').value;
+  const file = document.getElementById('edit-gal-file').files[0];
+  const alt = document.getElementById('edit-gal-alt').value;
+  const overlay = document.getElementById('edit-gal-overlay').value;
+  
+  const fd = new FormData();
+  if (file) fd.append('image', file);
+  fd.append('alt', alt);
+  fd.append('overlay', overlay);
+
+  const req = await fetch('/api/gallery/' + id, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + token },
+    body: fd
+  });
+  if(req.status === 403) return logout();
+  closeEditGallery();
+  loadData();
+}
+
+
+async function addSkill() {
+  const n = document.getElementById('sk-name').value;
+  const p = document.getElementById('sk-pct').value;
+  if (!n) return alert('Name required');
+  const req = await fetch('/api/skills', { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}, body: JSON.stringify({name: n, pct: p}) });
+  if(req.status === 403) return logout();
+  document.getElementById('sk-name').value = ''; document.getElementById('sk-pct').value = '';
+  loadData();
+}
+async function delSkill(id) {
+  if(confirm("Are you sure?")) { const req = await fetch('/api/skills/' + id, {method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}}); if(req.status === 403) return logout(); loadData(); }
+}
+async function addTesti() {
+  const q = document.getElementById('ts-quote').value; const a = document.getElementById('ts-avatar').value;
+  const n = document.getElementById('ts-name').value; const r = document.getElementById('ts-role').value;
+  if (!q || !n) return alert('Quote and Name required');
+  const req = await fetch('/api/testimonials', { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}, body: JSON.stringify({quote: q, avatar: a, name: n, role: r}) });
+  if(req.status === 403) return logout();
+  document.getElementById('ts-quote').value = ''; document.getElementById('ts-avatar').value = '';
+  document.getElementById('ts-name').value = ''; document.getElementById('ts-role').value = '';
+  loadData();
+}
+async function delTesti(id) {
+  if(confirm("Are you sure?")) { const req = await fetch('/api/testimonials/' + id, {method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}}); if(req.status === 403) return logout(); loadData(); }
+}
+
+async function addService() {
+  const icon = document.getElementById('svc-icon').value;
+  const title = document.getElementById('svc-title').value;
+  const desc = document.getElementById('svc-desc').value;
+  if (!title || !desc) return alert('Title and description required');
+  const req = await fetch('/api/services', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ icon, title, desc })
+  });
+  if(req.status === 403) return logout();
+  document.getElementById('svc-title').value = '';
+  document.getElementById('svc-desc').value = '';
+  loadData();
+}
+async function delService(id) {
+  if(confirm("Are you sure?")) {
+    const req = await fetch('/api/services/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+    if(req.status === 403) return logout();
+    loadData();
+  }
+}
+async function addGallery() {
+  const file = document.getElementById('gal-file').files[0];
+  const alt = document.getElementById('gal-alt').value;
+  const overlay = document.getElementById('gal-overlay').value;
+  if (!file) return alert('Please select an image file');
+  const fd = new FormData();
+  fd.append('image', file);
+  fd.append('alt', alt);
+  fd.append('overlay', overlay);
+  const req = await fetch('/api/gallery', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, body: fd
+  });
+  if(req.status === 403) return logout();
+  document.getElementById('gal-file').value = '';
+  document.getElementById('gal-alt').value = '';
+  document.getElementById('gal-overlay').value = '';
+  loadData();
+}
+async function delGallery(id) {
+  if(confirm("Are you sure?")) {
+    const req = await fetch('/api/gallery/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+    if(req.status === 403) return logout();
+    loadData();
+  }
+}
+function logout() {
+  localStorage.removeItem('adminToken');
+  window.location.href = '/login.html';
+}
+loadData();
+</script>
+</body>
+</html>

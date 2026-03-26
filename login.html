@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { background: #0c0f14; color: #d4d8e0; font-family: 'DM Sans', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; position: relative; }
+body::before { content:''; position:fixed; top:-20%; left:-10%; width:500px; height:500px; background:radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 60%); border-radius:50%; filter:blur(80px); z-index:-1; animation:float1 10s infinite alternate; }
+@keyframes float1 { to { transform: translate(50px, 50px); } }
+.card { background: rgba(22,27,38,0.9); border: 1px solid rgba(201,168,76,0.15); padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+h2 { font-family: 'Playfair Display', serif; color: #fff; margin-top: 0; text-align: center; font-size: 2rem; }
+h2 span { color: #c9a84c; }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; color: #c9a84c; font-size: 0.8rem; text-transform: uppercase; font-family: monospace; letter-spacing: 0.1em; }
+input { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 14px; border-radius: 6px; outline: none; transition: 0.3s; }
+input:focus { border-color: #c9a84c; box-shadow: 0 0 0 3px rgba(201,168,76,0.2); }
+button { width: 100%; background: #c9a84c; color: #000; padding: 14px; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+button:hover { background: #e8c97a; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(201,168,76,0.3); }
+.err { color: #ff4757; text-align: center; margin-top: 15px; font-size: 0.85rem; height: 20px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>Admin <span>Login</span></h2>
+  <div class="form-group"><label>Username</label><input type="text" id="user" placeholder="Enter username" autocomplete="off"></div>
+  <div class="form-group"><label>Password</label><input type="password" id="pass" placeholder="Enter password" autocomplete="off"></div>
+  <button onclick="login()">Access Dashboard</button>
+  <div id="err" class="err"></div>
+</div>
+<script>
+async function login() {
+  const u = document.getElementById('user').value;
+  const p = document.getElementById('pass').value;
+  const res = await fetch('/api/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: u, password: p })
+  });
+  const data = await res.json();
+  if (data.success) {
+    localStorage.setItem('adminToken', data.token);
+    window.location.href = '/admin.html';
+  } else {
+    document.getElementById('err').innerText = data.message;
+  }
+}
+</script>
+</body>
+</html>
