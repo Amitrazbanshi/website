@@ -1797,6 +1797,28 @@
       </div>
     </section>
 
+    <!-- LOGIN ACTIVITY -->
+    <section id="login-activity" class="alt-bg">
+      <div class="section-header">
+        <div class="section-eyebrow">Security Log</div>
+        <h2 class="section-title">Login Activity</h2>
+        <p class="section-subtitle">Recent login attempts to the admin dashboard.</p>
+      </div>
+      <div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;overflow-x:auto;">
+        <table id="login-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);text-align:left;">
+              <th style="padding:10px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;">Timestamp</th>
+              <th style="padding:10px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;">Username</th>
+              <th style="padding:10px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="login-tbody"></tbody>
+        </table>
+        <p id="login-loading" style="text-align:center;color:var(--text-muted);padding:20px;font-size:0.85rem;">Loading login activity...</p>
+      </div>
+    </section>
+
     <!-- FOOTER -->
     <footer id="footer">
       <div class="copy">&copy; 2024 <span>Amit Rajbanshi</span>. All rights reserved.</div>
@@ -1809,6 +1831,50 @@
     </footer>
 
   </div><!-- /main-content -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+const SUPABASE_URL = 'https://dsbrzllslpbqynuoivqx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_GtpyW9YQxwdB0dQS9Aarvg_1hReLnZY';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadLoginActivity() {
+  const tbody = document.getElementById('login-tbody');
+  const loading = document.getElementById('login-loading');
+  try {
+    const { data, error } = await supabase
+      .from('login_attempts')
+      .select('*')
+      .order('timestamp', { ascending: false })
+      .limit(50);
+    loading.style.display = 'none';
+    if (error) {
+      tbody.innerHTML = '<tr><td colspan="3" style="padding:15px;color:#ff4757;">Error loading data: ' + error.message + '</td></tr>';
+      return;
+    }
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" style="padding:15px;color:var(--text-muted);text-align:center;">No login attempts recorded yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(row => {
+      const date = new Date(row.timestamp);
+      const formatted = date.toLocaleString();
+      const status = row.success
+        ? '<span style="color:#4ade80;font-weight:bold;">&#10003; Success</span>'
+        : '<span style="color:#ff4757;font-weight:bold;">&#10007; Failed</span>';
+      return '<tr style="border-bottom:1px solid rgba(201,168,76,0.08);">'
+        + '<td style="padding:10px;color:var(--text);">' + formatted + '</td>'
+        + '<td style="padding:10px;color:var(--text);font-family:\'JetBrains Mono\',monospace;">' + (row.username || '—') + '</td>'
+        + '<td style="padding:10px;">' + status + '</td>'
+        + '</tr>';
+    }).join('');
+  } catch (e) {
+    loading.style.display = 'none';
+    tbody.innerHTML = '<tr><td colspan="3" style="padding:15px;color:#ff4757;text-align:center;">Failed to load login activity.</td></tr>';
+  }
+}
+document.addEventListener('DOMContentLoaded', loadLoginActivity);
+</script>
 
   <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <i class="fa fa-chevron-up"></i>

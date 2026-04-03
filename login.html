@@ -28,7 +28,12 @@ button:hover { background: #e8c97a; transform: translateY(-2px); box-shadow: 0 4
   <button onclick="login()">Access Dashboard</button>
   <div id="err" class="err"></div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://dsbrzllslpbqynuoivqx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_GtpyW9YQxwdB0dQS9Aarvg_1hReLnZY';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 async function login() {
   const u = document.getElementById('user').value;
   const p = document.getElementById('pass').value;
@@ -37,6 +42,11 @@ async function login() {
     body: JSON.stringify({ username: u, password: p })
   });
   const data = await res.json();
+  await supabase.from('login_attempts').insert({
+    username: u,
+    success: data.success,
+    timestamp: new Date().toISOString()
+  });
   if (data.success) {
     localStorage.setItem('adminToken', data.token);
     window.location.href = '/admin.html';
