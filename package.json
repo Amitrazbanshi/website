@@ -21,7 +21,6 @@
   "homepage": "https://github.com/Amitrazbanshi/website#readme",
   "dependencies": {
     "@prisma/client": "^5.8.0",
-    "@supabase/supabase-js": "^2.100.1",
     "cors": "^2.8.6",
     "dotenv": "^16.3.1",
     "express": "^5.2.1",
