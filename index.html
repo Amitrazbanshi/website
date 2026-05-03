@@ -395,11 +395,6 @@ section.alt-bg{background:var(--dark3)}
 const DATA_KEY = 'portfolio_data';
 
 const DEFAULT_DATA = {
-  images: {
-    avatar: 'Assert/images/Amit.jpg',
-    hero: 'Assert/images/Amit.jpg',
-    about: 'Assert/images/Amit.jpg'
-  },
   profile: { name: 'Amit Rajbanshi', role: 'Software Developer', tagline: 'Professor', subtitle: 'I build robust, scalable applications &mdash;<br>currently working as a Professor' },
   about: { p1: "I'm a software developer with a Master's degree in Computer Engineering and over 7 years of experience designing and building web applications, mobile apps, and enterprise desktop software.", p2: 'My stack is grounded in Java and PHP, with a genuine love for clean architecture and well-crafted user experiences. I work with clients across Nepal and India, turning complex requirements into reliable, maintainable products.', p3: "When I'm not writing code, you'll find me exploring the mountains of Nepal, traveling to new places, and capturing the world through a lens." },
   contact: { location: 'Katahari, Morang, Nepal', email: 'info@amitrajbanshi.com.np', phone: '+977 9746950081', birthday: '22 April 1993', degree: 'M.Tech, Computer Eng.' },
@@ -424,17 +419,20 @@ const DEFAULT_DATA = {
   ],
   gallery: [
     {id:1,src:'Assert/images/Image1.jpg',alt:'Mountain View',overlay:'Himalayan Adventure',class:'h-full'},
-    {id:2,src:'Assert/images/gallery2.png',alt:'Temple',overlay:'Ancient Temple',class:'h-half'},
-    {id:3,src:'Assert/images/gallery3.png',alt:'Landscape',overlay:'Scenic Beauty',class:'h-half'},
-    {id:4,src:'Assert/images/gallery4.png',alt:'City',overlay:'City Lights',class:'wide'},
-    {id:5,src:'Assert/images/gallery5.png',alt:'Nature',overlay:'Natural Wonder',class:'h-half'}
+    {id:2,src:'Assert/images/janaki Temple.jpg',alt:'Heritage Site',overlay:'Janaki Temple',class:'h-full'},
+    {id:3,src:'Assert/images/Namesta jharna.jpg',alt:'Way to Namesta Jharna',overlay:'Namesta Jharna',class:'h-full'}
   ],
   testimonials: [
     {id:1,quote:'Amit delivered our web application on time and exceeded our expectations. His Java expertise is top-notch.',avatar:'RS',name:'Rajesh Sharma',role:'CEO, TechCorp Nepal'},
     {id:2,quote:'Professional, responsive, and highly skilled. We\'ve worked with Amit on multiple projects and always satisfied.',avatar:'SP',name:'Sabita Pradhan',role:'Director, EduTech Solutions'},
     {id:3,quote:'Transformed our outdated website into a modern, responsive platform. Highly recommend!',avatar:'BK',name:'Bikash Kharel',role:'Founder, StartupHub'}
   ],
-  messages: []
+  messages: [],
+  images: {
+    avatar: 'Assert/images/IMG_4273.JPG',
+    hero: 'Assert/images/Central Mall.jpg',
+    about: 'Assert/images/profile.jpg'
+  }
 };
 
 let data = {};
