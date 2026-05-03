@@ -3,34 +3,27 @@
 ## Architecture
 
 - **Static-only**: `index.html` + `admin.html`, no server required
-- **Data storage**: localStorage (browser-based, persists across sessions)
-- **Images**: Stored in `Assert/images/`
-- **Admin panel**: Separate `admin.html` page
+- **Data storage**: localStorage (`portfolio_data` key)
+- **Images**: `Assert/images/` (note casing: "Assert", not "assets")
+- **Admin**: `admin.html` page
+
+## Running
+
+Open `index.html` or `admin.html` directly in a browser - no build/server needed.
 
 ## Admin Setup
 
-1. Open `admin.html` in a browser
+1. Open `admin.html` in browser
 2. Click "Set up admin account" link
-3. Enter username and password
-4. Use those credentials to login
+3. Enter username/password to create admin account
+4. Use credentials to login
 
-## What Can Be Managed
+## Manageable Content
 
 - **Profile**: Name, role, tagline, hero subtitle
-- **About**: All three paragraphs
+- **About**: Three paragraphs
 - **Contact**: Location, email, phone, birthday, degree
-- **Stats**: Happy clients, projects, hours, years experience
-- **Skills**: Add/delete skills with percentages
-- **Services**: Add/delete services with icons and descriptions
-- **Gallery**: Add/delete images with alt text and overlay
-- **Testimonials**: Add/delete client quotes
+- **Stats**: Clients, projects, hours, years
+- **Skills/Services/Gallery/Testimonials**: Add/delete items
 - **Messages**: View contact form submissions
-- **Data**: Export/import/reset data
-
-## Data Management
-
-All content stored in localStorage under key `portfolio_data`. Default data is pre-populated on first load.
-
-## Running the Website
-
-Simply open `index.html` in any web browser - no server needed.
+- **Data**: Export/import/reset via admin panel

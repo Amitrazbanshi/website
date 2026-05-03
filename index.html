@@ -189,7 +189,7 @@ section.alt-bg{background:var(--dark3)}
 
 <aside id="sidebar">
   <div class="sb-profile">
-    <img src="Assert/images/Amit.jpg" class="sb-avatar" alt="Amit Rajbanshi">
+    <img id="dyn-avatar" src="Assert/images/Amit.jpg" class="sb-avatar" alt="Amit Rajbanshi">
     <div class="sb-name">Amit Rajbanshi</div>
     <div class="sb-role">Software Developer</div>
     <div class="sb-socials">
@@ -240,7 +240,7 @@ section.alt-bg{background:var(--dark3)}
     </div>
     <div class="about-grid">
       <div class="about-photo-stack">
-        <img src="Assert/images/Amit.jpg" class="photo-main" alt="Amit Rajbanshi">
+        <img id="photo-main" src="Assert/images/Amit.jpg" class="photo-main" alt="Amit Rajbanshi">
         <div class="experience-badge">
           <span class="num">7+</span>
           <span class="lbl">Years<br>Experience</span>
@@ -395,6 +395,11 @@ section.alt-bg{background:var(--dark3)}
 const DATA_KEY = 'portfolio_data';
 
 const DEFAULT_DATA = {
+  images: {
+    avatar: 'Assert/images/Amit.jpg',
+    hero: 'Assert/images/Amit.jpg',
+    about: 'Assert/images/Amit.jpg'
+  },
   profile: { name: 'Amit Rajbanshi', role: 'Software Developer', tagline: 'Professor', subtitle: 'I build robust, scalable applications &mdash;<br>currently working as a Professor' },
   about: { p1: "I'm a software developer with a Master's degree in Computer Engineering and over 7 years of experience designing and building web applications, mobile apps, and enterprise desktop software.", p2: 'My stack is grounded in Java and PHP, with a genuine love for clean architecture and well-crafted user experiences. I work with clients across Nepal and India, turning complex requirements into reliable, maintainable products.', p3: "When I'm not writing code, you'll find me exploring the mountains of Nepal, traveling to new places, and capturing the world through a lens." },
   contact: { location: 'Katahari, Morang, Nepal', email: 'info@amitrajbanshi.com.np', phone: '+977 9746950081', birthday: '22 April 1993', degree: 'M.Tech, Computer Eng.' },
@@ -472,12 +477,29 @@ function renderTestimonials() {
 }
 
 function renderAll() {
+  renderImages();
   renderSkills();
   renderServices();
   renderGallery();
   renderTestimonials();
   renderProfile();
   renderStats();
+}
+
+function renderImages() {
+  if (!data) loadData();
+  const imgs = (data && data.images) || { avatar: 'Assert/images/Amit.jpg', hero: 'Assert/images/Amit.jpg', about: 'Assert/images/Amit.jpg' };
+  const avatar = imgs.avatar || 'Assert/images/Amit.jpg';
+  const hero = imgs.hero || 'Assert/images/Amit.jpg';
+  const about = imgs.about || 'Assert/images/Amit.jpg';
+  
+  const avatarEl = document.getElementById('dyn-avatar');
+  const heroEl = document.getElementById('hero');
+  const aboutEl = document.getElementById('photo-main');
+  
+  if (avatarEl) avatarEl.src = avatar;
+  if (heroEl) heroEl.style.setProperty('background-image', `url('${hero}')`, 'important');
+  if (aboutEl) aboutEl.src = about;
 }
 
 function renderProfile() {

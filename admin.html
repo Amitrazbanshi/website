@@ -123,6 +123,40 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
     <!-- Profile Tab -->
     <div class="tab-content active" id="tab-profile">
       <div class="card">
+        <h2><span>Images</span></h2>
+        <div class="grid">
+          <div class="form-group">
+            <label>Sidebar Avatar</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <img id="avatar-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" src="Assert/images/default-avatar.jpg">
+              <button type="button" class="btn btn-sm" onclick="document.getElementById('avatar-file').click()"><i class="fa fa-upload"></i> Change</button>
+              <input type="file" id="avatar-file" style="display:none" accept="image/*" onchange="previewImage(this,'avatar-preview')">
+            </div>
+            <small>Recommended: Square image, will be cropped to circle</small>
+          </div>
+          <div class="form-group">
+            <label>Hero Background</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <img id="hero-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/default-hero.jpg">
+              <button type="button" class="btn btn-sm" onclick="document.getElementById('hero-file').click()"><i class="fa fa-upload"></i> Change</button>
+              <input type="file" id="hero-file" style="display:none" accept="image/*" onchange="previewImage(this,'hero-preview')">
+            </div>
+            <small>Recommended: Large landscape image</small>
+          </div>
+          <div class="form-group">
+            <label>About Me Image</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <img id="about-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/default-about.jpg">
+              <button type="button" class="btn btn-sm" onclick="document.getElementById('about-file').click()"><i class="fa fa-upload"></i> Change</button>
+              <input type="file" id="about-file" style="display:none" accept="image/*" onchange="previewImage(this,'about-preview')">
+            </div>
+            <small>Image displayed in About section</small>
+          </div>
+        </div>
+        <button class="btn" onclick="saveImages()"><i class="fa fa-save"></i> Save Images</button>
+      </div>
+
+      <div class="card">
         <h2><span>Personal</span> Information</h2>
         <div class="form-group">
           <label>Full Name</label>
@@ -368,6 +402,11 @@ const DATA_KEY = 'portfolio_data';
 const ADMIN_KEY = 'portfolio_admin';
 
 const DEFAULT_DATA = {
+  images: {
+    avatar: 'Assert/images/profile.jpg',
+    hero: 'Assert/images/janaki Temple.jpg',
+    about: 'Assert/images/Namesta jharna.jpg'
+  },
   profile: {
     name: 'Amit Rajbanshi',
     role: 'Software Developer',
@@ -450,6 +489,7 @@ function updateStats() {
 
 function renderAll() {
   loadData();
+  renderImages();
   renderProfile();
   renderAbout();
   renderContact();
@@ -711,7 +751,69 @@ function deleteService(id) {
   updateStats();
 }
 
-let selectedGalleryImage = '';
+let selectedAvatarImage = '';
+let selectedHeroImage = '';
+let selectedAboutImage = '';
+
+function previewImage(input, previewId) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const preview = document.getElementById(previewId);
+    preview.src = URL.createObjectURL(file);
+    if (previewId === 'avatar-preview') {
+      selectedAvatarImage = file.name;
+    } else if (previewId === 'hero-preview') {
+      selectedHeroImage = file.name;
+    } else if (previewId === 'about-preview') {
+      selectedAboutImage = file.name;
+    }
+  }
+}
+
+function saveImages() {
+  try {
+    let avatarPath = data.images?.avatar || 'Assert/images/profile.jpg';
+    let heroPath = data.images?.hero || 'Assert/images/janaki Temple.jpg';
+    let aboutPath = data.images?.about || 'Assert/images/Namesta jharna.jpg';
+    
+    if (selectedAvatarImage) {
+      avatarPath = 'Assert/images/' + selectedAvatarImage;
+    }
+    if (selectedHeroImage) {
+      heroPath = 'Assert/images/' + selectedHeroImage;
+    }
+    if (selectedAboutImage) {
+      aboutPath = 'Assert/images/' + selectedAboutImage;
+    }
+    
+    data.images = { avatar: avatarPath, hero: heroPath, about: aboutPath };
+    saveData();
+    
+    let msg = 'Images saved!';
+    if (selectedAvatarImage || selectedHeroImage || selectedAboutImage) {
+      msg += '\n\nCopy these files to Assert/images/:';
+      if (selectedAvatarImage) msg += '\n- ' + selectedAvatarImage;
+      if (selectedHeroImage) msg += '\n- ' + selectedHeroImage;
+      if (selectedAboutImage) msg += '\n- ' + selectedAboutImage;
+    }
+    alert(msg);
+    
+    selectedAvatarImage = '';
+    selectedHeroImage = '';
+    selectedAboutImage = '';
+  } catch (err) {
+    alert('Error saving images: ' + err.message);
+  }
+}
+
+function renderImages() {
+  const avatarPath = data.images?.avatar || 'Assert/images/profile.jpg';
+  const heroPath = data.images?.hero || 'Assert/images/janaki Temple.jpg';
+  const aboutPath = data.images?.about || 'Assert/images/Namesta jharna.jpg';
+  document.getElementById('avatar-preview').src = avatarPath;
+  document.getElementById('hero-preview').src = heroPath;
+  document.getElementById('about-preview').src = aboutPath;
+}
 
 function previewGalleryImage(input) {
   if (input.files && input.files[0]) {
