@@ -1,274 +1,859 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Admin Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root { --gold: #c9a84c; --gold-light: #e8c97a; --dark: #0c0f14; --card: rgba(22,27,38,0.9); --text: #d4d8e0; --border: rgba(201,168,76,0.15); --r: 10px; }
-body { background: var(--dark); color: var(--text); font-family: 'DM Sans', sans-serif; padding: 40px; }
-.container { max-width: 1000px; margin: 0 auto; }
-h1, h2 { font-family: 'Playfair Display', serif; color: #fff; }
-h1 span { color: var(--gold); }
-.card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: var(--r); margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-.form-group { margin-bottom: 15px; }
-label { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--gold); display: block; margin-bottom: 5px; text-transform: uppercase; }
-input, textarea, select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.08); color: var(--text) !important; padding: 12px; border-radius: 5px; outline: none; font-family: inherit; }
-select option { background: #222; }
-input:focus, textarea:focus, select:focus { border-color: var(--gold); }
-button { background: var(--gold); color: #000; padding: 12px 25px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; font-family: inherit; transition: 0.3s; }
-button:hover { background: var(--gold-light); transform: translateY(-2px); }
-.list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); }
-.list-item:last-child { border-bottom: none; }
-.list-item .actions button { padding: 8px 15px; font-size: 0.85rem; margin-left: 5px; }
-.btn-del { background: #ff4757 !important; color: #fff !important; }
-.btn-del:hover { background: #ff6b81 !important; }
-.btn-edit { background: #555 !important; color: #fff !important; }
-.btn-edit:hover { background: #777 !important; }
-.admin-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-.admin-nav a { color: var(--gold); text-decoration: none; font-family: 'JetBrains Mono', monospace; cursor: pointer; }
-#edit-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; max-width:500px; width:90%; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-#edit-overlap { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; backdrop-filter:blur(5px); }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Portfolio Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+:root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.12);--gold-glow:rgba(201,168,76,0.3);--dark:#0c0f14;--dark2:#111520;--dark3:#161b26;--card:rgba(22,27,38,0.9);--text:#d4d8e0;--text-muted:#7a8499;--border:rgba(201,168,76,0.15);--r:10px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
+.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:1.5rem}
+.header h1 span{color:var(--gold)}
+.header .back-link{color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.85rem}
+.header .logout-btn{background:var(--gold);color:#000;padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600;margin-left:20px}
+.header .logout-btn:hover{background:var(--gold-light)}
+.container{max-width:1200px;margin:0 auto;padding:30px 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:25px;margin-bottom:25px}
+.card h2{font-size:1.2rem;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.card h2 span{color:var(--gold)}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);color:var(--text);padding:12px;border-radius:6px;font-family:inherit;font-size:0.9rem}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);outline:none}
+.form-group textarea{min-height:80px;resize:vertical}
+.form-group small{color:var(--text-muted);font-size:0.75rem;display:block;margin-top:4px}
+.btn{background:var(--gold);color:#000;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-sm{padding:8px 16px;font-size:0.8rem}
+.btn-danger{background:#ff4757;color:#fff}
+.btn-danger:hover{background:#ff6b81}
+.btn-secondary{background:#444;color:#fff}
+.btn-secondary:hover{background:#555}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.item-list{display:grid;gap:10px}
+.list-item{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:15px;display:flex;justify-content:space-between;align-items:start;gap:15px}
+.list-item-content{flex:1}
+.list-item-content .title{font-weight:600;color:#fff;margin-bottom:4px}
+.list-item-content .subtitle{font-size:0.8rem;color:var(--text-muted)}
+.list-item-content .desc{font-size:0.85rem;color:var(--text-muted);margin-top:8px;line-height:1.5}
+.list-item-actions{display:flex;gap:8px;flex-shrink:0}
+.list-item-actions button{padding:8px 12px;border:none;border-radius:5px;cursor:pointer;font-size:0.8rem}
+.list-item-img{width:60px;height:60px;object-fit:cover;border-radius:5px;margin-right:15px;flex-shrink:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:30px}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center}
+.stat-box .num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold);display:block}
+.stat-box .lbl{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.modal.active{display:flex}
+.modal-content{background:var(--dark2);border:1px solid var(--border);border-radius:var(--r);padding:30px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-header h3{font-size:1.2rem}
+.modal-header .close{background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.login-page{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:#000;padding:15px 30px;border-radius:8px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.4);z-index:1000;opacity:0;transition:all 0.3s ease}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:40px;width:100%;max-width:400px}
+.login-card h2{text-align:center;margin-bottom:30px}
+.login-card h2 span{color:var(--gold)}
+.login-card .form-group{margin-bottom:20px}
+.login-card .btn{width:100%;justify-content:center}
+.login-card .err{color:#ff4757;text-align:center;margin-top:10px;min-height:20px}
+.tabs{display:flex;gap:5px;margin-bottom:25px;flex-wrap:wrap}
+.tab{background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:12px 20px;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.8rem;transition:all 0.2s}
+.tab:hover{background:var(--gold-dim);color:var(--text)}
+.tab.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.empty-state{text-align:center;padding:40px;color:var(--text-muted)}
+.empty-state i{font-size:2rem;margin-bottom:10px;display:block}
+  </style>
 </head>
 <body>
-<div id="edit-overlap" onclick="closeEditGallery()"></div>
-<div id="edit-modal" class="card">
-  <h2>Edit Gallery Image</h2>
-  <input type="hidden" id="edit-gal-id">
-  <div class="form-group"><label>New Image (optional)</label><input type="file" id="edit-gal-file"></div>
-  <div class="form-group"><label>Alt Text</label><input type="text" id="edit-gal-alt"></div>
-  <div class="form-group"><label>Overlay Text</label><input type="text" id="edit-gal-overlay"></div>
-  <div style="display:flex; gap:10px;">
-    <button onclick="saveGalleryEdit()" style="flex:1;"><i class="fa fa-save"></i> Save Changes</button>
-    <button onclick="closeEditGallery()" style="flex:1; background:#444; color:#fff;">Cancel</button>
+
+<div class="login-page" id="login-page">
+  <div class="login-card">
+    <h2>Admin <span>Login</span></h2>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="login-user" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="Enter password">
+    </div>
+    <button class="btn" onclick="doLogin()">Login</button>
+    <div class="err" id="login-err"></div>
   </div>
 </div>
 
-<div class="container">
-  <div class="admin-nav">
+<div id="admin-app" style="display:none;">
+  <div class="header">
     <h1>Admin <span>Dashboard</span></h1>
     <div>
-      <a href="/"><i class="fa fa-home"></i> View Site</a> &nbsp; | &nbsp;
-      <a onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+      <a href="index.html" class="back-link"><i class="fa fa-arrow-left"></i> View Site</a>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </div>
-  
-  <div class="card">
-    <h2>Add New Service</h2>
-    <div class="form-group">
-      <label>Icon</label>
-      <select id="svc-icon">
-        <option value="fa-laptop-code">💻 Laptop Code</option>
-        <option value="fa-mobile-alt">📱 Mobile</option>
-        <option value="fa-desktop">🖥️ Desktop</option>
-        <option value="fa-database">🗄️ Database</option>
-        <option value="fa-search">🔍 Search / SEO</option>
-        <option value="fa-headset">🎧 Support / Headset</option>
-        <option value="fa-server">🖧 Server</option>
-        <option value="fa-cloud">☁️ Cloud</option>
-        <option value="fa-paint-brush">🖌️ Design</option>
-        <option value="fa-star">⭐ Star</option>
-        <option value="fa-code">⌨️ Code</option>
-        <option value="fa-chart-line">📈 Analytics</option>
-      </select>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-box"><span class="num" id="stat-skills">0</span><span class="lbl">Skills</span></div>
+      <div class="stat-box"><span class="num" id="stat-services">0</span><span class="lbl">Services</span></div>
+      <div class="stat-box"><span class="num" id="stat-gallery">0</span><span class="lbl">Gallery</span></div>
+      <div class="stat-box"><span class="num" id="stat-messages">0</span><span class="lbl">Messages</span></div>
     </div>
-    <div class="form-group"><label>Title</label><input type="text" id="svc-title"></div>
-    <div class="form-group"><label>Description</label><textarea id="svc-desc" rows="3"></textarea></div>
-    <button onclick="addService()"><i class="fa fa-plus"></i> Add Service</button>
-  </div>
-  <div class="card">
-    <h2>Current Services</h2>
-    <div id="services-list"></div>
-  </div>
 
-  <div class="card">
-    <h2>Add Gallery Image</h2>
-    <div class="form-group"><label>Image File</label><input type="file" id="gal-file"></div>
-    <div class="form-group"><label>Alt Text</label><input type="text" id="gal-alt"></div>
-    <div class="form-group"><label>Overlay Text</label><input type="text" id="gal-overlay"></div>
-    <button onclick="addGallery()"><i class="fa fa-plus"></i> Add Image</button>
-  </div>
-  <div class="card">
-    <h2>Current Gallery</h2>
-    <div id="gallery-list"></div>
-  </div>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('profile')">Profile</button>
+      <button class="tab" onclick="showTab('skills')">Skills</button>
+      <button class="tab" onclick="showTab('services')">Services</button>
+      <button class="tab" onclick="showTab('gallery')">Gallery</button>
+      <button class="tab" onclick="showTab('testimonials')">Testimonials</button>
+      <button class="tab" onclick="showTab('messages')">Messages</button>
+      <button class="tab" onclick="showTab('settings')">Settings</button>
+    </div>
 
-  <div class="card">
-    <h2>Add New Skill</h2>
-    <div class="form-group"><label>Skill Name</label><input type="text" id="sk-name"></div>
-    <div class="form-group"><label>Percentage (e.g. 90)</label><input type="number" id="sk-pct" min="1" max="100"></div>
-    <button onclick="addSkill()"><i class="fa fa-plus"></i> Add Skill</button>
-  </div>
-  <div class="card">
-    <h2>Current Skills</h2>
-    <div id="skills-list"></div>
-  </div>
+    <!-- Profile Tab -->
+    <div class="tab-content active" id="tab-profile">
+      <div class="card">
+        <h2><span>Personal</span> Information</h2>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="profile-name" placeholder="Amit Rajbanshi">
+        </div>
+        <div class="form-group">
+          <label>Role Title</label>
+          <input type="text" id="profile-role" placeholder="Software Developer">
+        </div>
+        <div class="form-group">
+          <label>Tagline (Hero)</label>
+          <input type="text" id="profile-tagline" placeholder="Professor">
+        </div>
+        <div class="form-group">
+          <label>Hero Subtitle</label>
+          <textarea id="profile-subtitle" placeholder="I build robust, scalable applications..."></textarea>
+        </div>
+        <button class="btn" onclick="saveProfile()">Save Profile</button>
+      </div>
 
-  <div class="card">
-    <h2>Add New Testimonial</h2>
-    <div class="form-group"><label>Quote</label><textarea id="ts-quote" rows="3"></textarea></div>
-    <div class="form-group"><label>Avatar Initials (e.g. AS)</label><input type="text" id="ts-avatar"></div>
-    <div class="form-group"><label>Author Name</label><input type="text" id="ts-name"></div>
-    <div class="form-group"><label>Author Role</label><input type="text" id="ts-role"></div>
-    <button onclick="addTesti()"><i class="fa fa-plus"></i> Add Testimonial</button>
-  </div>
-  <div class="card">
-    <h2>Current Testimonials</h2>
-    <div id="testimonials-list"></div>
-  </div>
+      <div class="card">
+        <h2><span>About</span> Section</h2>
+        <div class="form-group">
+          <label>About Paragraph 1</label>
+          <textarea id="about-p1" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>About Paragraph 2</label>
+          <textarea id="about-p2" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>About Paragraph 3</label>
+          <textarea id="about-p3" rows="3"></textarea>
+        </div>
+        <button class="btn" onclick="saveAbout()">Save About</button>
+      </div>
 
+      <div class="card">
+        <h2><span>Contact</span> Info</h2>
+        <div class="grid">
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" id="contact-location" placeholder="Katahari, Morang, Nepal">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="contact-email" placeholder="info@amitrajbanshi.com.np">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" id="contact-phone" placeholder="+977 9746950081">
+          </div>
+          <div class="form-group">
+            <label>Birthday</label>
+            <input type="text" id="contact-birthday" placeholder="22 April 1993">
+          </div>
+        </div>
+        <button class="btn" onclick="saveContact()">Save Contact</button>
+      </div>
+
+      <div class="card">
+        <h2><span>Stats</span></h2>
+        <div class="grid">
+          <div class="form-group">
+            <label>Happy Clients</label>
+            <input type="number" id="stat-clients" value="232">
+          </div>
+          <div class="form-group">
+            <label>Projects Completed</label>
+            <input type="number" id="stat-projects" value="521">
+          </div>
+          <div class="form-group">
+            <label>Hours of Support</label>
+            <input type="number" id="stat-hours" value="1453">
+          </div>
+          <div class="form-group">
+            <label>Years Experience</label>
+            <input type="number" id="stat-experience" value="7">
+          </div>
+        </div>
+        <button class="btn" onclick="saveStats()">Save Stats</button>
+      </div>
+    </div>
+
+    <!-- Skills Tab -->
+    <div class="tab-content" id="tab-skills">
+      <div class="card">
+        <h2><span>Add</span> Skill</h2>
+        <div class="grid">
+          <div class="form-group">
+            <label>Skill Name</label>
+            <input type="text" id="skill-name" placeholder="Java">
+          </div>
+          <div class="form-group">
+            <label>Percentage (1-100)</label>
+            <input type="number" id="skill-pct" min="1" max="100" placeholder="90">
+          </div>
+        </div>
+        <button class="btn" onclick="addSkill()"><i class="fa fa-plus"></i> Add Skill</button>
+      </div>
+
+      <div class="card">
+        <h2><span>Current</span> Skills</h2>
+        <div class="item-list" id="skills-list"></div>
+      </div>
+    </div>
+
+    <!-- Services Tab -->
+    <div class="tab-content" id="tab-services">
+      <div class="card">
+        <h2><span>Add</span> Service</h2>
+        <div class="form-group">
+          <label>Icon (FontAwesome class)</label>
+          <select id="service-icon">
+            <option value="fa-laptop-code">&#128187; Laptop Code</option>
+            <option value="fa-mobile-alt">&#128241; Mobile</option>
+            <option value="fa-desktop">&#128187; Desktop</option>
+            <option value="fa-database">&#128451; Database</option>
+            <option value="fa-search">&#128269; Search/SEO</option>
+            <option value="fa-headset">&#127908; Support</option>
+            <option value="fa-server">&#128421; Server</option>
+            <option value="fa-cloud">&#9729; Cloud</option>
+            <option value="fa-paint-brush">&#9998; Design</option>
+            <option value="fa-star">&#11088; Star</option>
+            <option value="fa-code">&#128187; Code</option>
+            <option value="fa-chart-line">&#128200; Analytics</option>
+            <option value="fa-wordpress">&#9679; WordPress</option>
+            <option value="fa-shopping-cart">&#128722; E-Commerce</option>
+            <option value="fa-shield-alt">&#128737; Security</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="service-title" placeholder="Web Development">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="service-desc" rows="3" placeholder="Custom websites and web applications..."></textarea>
+        </div>
+        <button class="btn" onclick="addService()"><i class="fa fa-plus"></i> Add Service</button>
+      </div>
+
+      <div class="card">
+        <h2><span>Current</span> Services</h2>
+        <div class="item-list" id="services-list"></div>
+      </div>
+    </div>
+
+    <!-- Gallery Tab -->
+    <div class="tab-content" id="tab-gallery">
+      <div class="card">
+        <h2><span>Add</span> Gallery Image</h2>
+        <div class="form-group">
+          <label>Choose Image</label>
+          <input type="file" id="gallery-file" accept="image/*" onchange="previewGalleryImage(this)">
+          <div id="gallery-preview" style="margin-top:10px;display:none;">
+            <img id="gallery-preview-img" style="max-width:200px;max-height:150px;border-radius:8px;border:2px solid var(--border);">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Alt Text</label>
+          <input type="text" id="gallery-alt" placeholder="Mountain View">
+        </div>
+        <div class="form-group">
+          <label>Overlay Text</label>
+          <input type="text" id="gallery-overlay" placeholder="Himalayan Adventure">
+        </div>
+        <div class="form-group">
+          <label>Class (size)</label>
+          <select id="gallery-class">
+            <option value="h-full">Full Height (460px)</option>
+            <option value="h-half">Half Height (223px)</option>
+            <option value="wide">Wide (spans 2 columns)</option>
+            <option value="h-wide">Wide Height (240px)</option>
+          </select>
+        </div>
+        <button class="btn" onclick="addGallery()"><i class="fa fa-plus"></i> Add Image</button>
+      </div>
+
+      <div class="card">
+        <h2><span>Current</span> Gallery</h2>
+        <div class="item-list" id="gallery-list"></div>
+      </div>
+    </div>
+
+    <!-- Testimonials Tab -->
+    <div class="tab-content" id="tab-testimonials">
+      <div class="card">
+        <h2><span>Add</span> Testimonial</h2>
+        <div class="form-group">
+          <label>Quote</label>
+          <textarea id="testi-quote" rows="3" placeholder="Great work, highly recommended!"></textarea>
+        </div>
+        <div class="grid">
+          <div class="form-group">
+            <label>Author Name</label>
+            <input type="text" id="testi-name" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Author Role</label>
+            <input type="text" id="testi-role" placeholder="CEO, Company">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Avatar Initials (optional)</label>
+          <input type="text" id="testi-avatar" placeholder="JD">
+          <small>Will use first letters of name if empty</small>
+        </div>
+        <button class="btn" onclick="addTestimonial()"><i class="fa fa-plus"></i> Add Testimonial</button>
+      </div>
+
+      <div class="card">
+        <h2><span>Current</span> Testimonials</h2>
+        <div class="item-list" id="testimonials-list"></div>
+      </div>
+    </div>
+
+    <!-- Messages Tab -->
+    <div class="tab-content" id="tab-messages">
+      <div class="card">
+        <h2><span>Contact</span> Form Submissions</h2>
+        <button class="btn btn-danger" onclick="clearMessages()" style="margin-bottom:20px;"><i class="fa fa-trash"></i> Clear All Messages</button>
+        <div class="item-list" id="messages-list"></div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" id="tab-settings">
+      <div class="card">
+        <h2><span>Data</span> Management</h2>
+        <p style="color:var(--text-muted);margin-bottom:20px;">Manage your portfolio data stored in browser localStorage.</p>
+        <button class="btn btn-secondary" onclick="exportData()"><i class="fa fa-download"></i> Export Data</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()"><i class="fa fa-upload"></i> Import Data</button>
+        <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(this)">
+        <button class="btn btn-danger" onclick="resetData()" style="margin-left:10px"><i class="fa fa-trash"></i> Reset to Default</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-const token = localStorage.getItem('adminToken');
-if (!token) window.location.href = '/login.html';
+const DATA_KEY = 'portfolio_data';
+const ADMIN_KEY = 'portfolio_admin';
 
-async function loadData() {
-  const res = await fetch('/api/content');
-  const data = await res.json();
-  const svList = document.getElementById('services-list');
-  svList.innerHTML = '';
-  data.services.forEach(s => {
-    svList.innerHTML += `<div class="list-item"><div><strong><i class="fa ${s.icon}"></i> ${s.title}</strong><br><span style="font-size:0.85rem;color:#888">${s.desc}</span></div> <div class="actions"><button class="btn-del" onclick="delService(${s.id})"><i class="fa fa-trash"></i></button></div></div>`;
-  });
-  const glList = document.getElementById('gallery-list');
-  glList.innerHTML = '';
-  
-  const skList = document.getElementById('skills-list');
-  skList.innerHTML = '';
-  data.skills.forEach(s => {
-    skList.innerHTML += `<div class="list-item"><div><strong>${s.name}</strong> <span style="font-size:0.85rem;color:#888">${s.pct}%</span></div> <div class="actions"><button class="btn-del" onclick="delSkill(${s.id})"><i class="fa fa-trash"></i></button></div></div>`;
-  });
+const DEFAULT_DATA = {
+  profile: {
+    name: 'Amit Rajbanshi',
+    role: 'Software Developer',
+    tagline: 'Professor',
+    subtitle: 'I build robust, scalable applications &mdash;<br>currently working as a Professor'
+  },
+  about: {
+    p1: "I'm a software developer with a Master's degree in Computer Engineering and over 7 years of experience designing and building web applications, mobile apps, and enterprise desktop software.",
+    p2: 'My stack is grounded in Java and PHP, with a genuine love for clean architecture and well-crafted user experiences. I work with clients across Nepal and India, turning complex requirements into reliable, maintainable products.',
+    p3: "When I'm not writing code, you'll find me exploring the mountains of Nepal, traveling to new places, and capturing the world through a lens."
+  },
+  contact: {
+    location: 'Katahari, Morang, Nepal',
+    email: 'info@amitrajbanshi.com.np',
+    phone: '+977 9746950081',
+    birthday: '22 April 1993',
+    degree: 'M.Tech, Computer Eng.'
+  },
+  stats: {
+    clients: 232,
+    projects: 521,
+    hours: 1453,
+    experience: 7
+  },
+  skills: [
+    {id:1,name:'Java',pct:95},
+    {id:2,name:'PHP',pct:90},
+    {id:3,name:'HTML/CSS',pct:92},
+    {id:4,name:'JavaScript',pct:85},
+    {id:5,name:'MySQL',pct:88},
+    {id:6,name:'Android Dev',pct:80},
+    {id:7,name:'WordPress',pct:85},
+    {id:8,name:'React',pct:75}
+  ],
+  services: [
+    {id:1,icon:'fa-laptop-code',title:'Web Development',desc:'Custom websites and web applications built with modern frameworks. From landing pages to full-stack solutions.'},
+    {id:2,icon:'fa-mobile-alt',title:'Mobile Apps',desc:'Native Android applications developed from scratch. Clean architecture, intuitive UI, and Play Store ready.'},
+    {id:3,icon:'fa-database',title:'Backend & APIs',desc:'Robust server-side solutions with RESTful APIs, database design, and secure authentication systems.'},
+    {id:4,icon:'fa-wordpress',title:'WordPress Solutions',desc:'Custom themes, plugins, and full WordPress site builds. E-commerce, blogs, and business sites.'},
+    {id:5,icon:'fa-search',title:'SEO & Performance',desc:'Search engine optimization and performance tuning. Fast loading, accessible, and search-friendly.'},
+    {id:6,icon:'fa-headset',title:'Technical Support',desc:'Ongoing maintenance, bug fixes, and technical consultation. I\'m here for the long haul.'}
+  ],
+  gallery: [
+    {id:1,src:'Assert/images/Image1.jpg',alt:'Mountain View',overlay:'Himalayan Adventure',class:'h-full'},
+    {id:2,src:'Assert/images/gallery2.png',alt:'Temple',overlay:'Ancient Temple',class:'h-half'},
+    {id:3,src:'Assert/images/gallery3.png',alt:'Landscape',overlay:'Scenic Beauty',class:'h-half'},
+    {id:4,src:'Assert/images/gallery4.png',alt:'City',overlay:'City Lights',class:'wide'},
+    {id:5,src:'Assert/images/gallery5.png',alt:'Nature',overlay:'Natural Wonder',class:'h-half'}
+  ],
+  testimonials: [
+    {id:1,quote:'Amit delivered our web application on time and exceeded our expectations. His Java expertise is top-notch.',avatar:'RS',name:'Rajesh Sharma',role:'CEO, TechCorp Nepal'},
+    {id:2,quote:'Professional, responsive, and highly skilled. We\'ve worked with Amit on multiple projects and always satisfied.',avatar:'SP',name:'Sabita Pradhan',role:'Director, EduTech Solutions'},
+    {id:3,quote:'Transformed our outdated website into a modern, responsive platform. Highly recommend!',avatar:'BK',name:'Bikash Kharel',role:'Founder, StartupHub'}
+  ],
+  messages: []
+};
 
-  const tsList = document.getElementById('testimonials-list');
-  tsList.innerHTML = '';
-  data.testimonials.forEach(t => {
-    tsList.innerHTML += `<div class="list-item"><div><strong>${t.name}</strong> (${t.role})<br><span style="font-size:0.85rem;color:#888">"${t.quote}"</span></div> <div class="actions"><button class="btn-del" onclick="delTesti(${t.id})"><i class="fa fa-trash"></i></button></div></div>`;
-  });
+let data = {};
 
-  data.gallery.forEach(g => {
-    glList.innerHTML += `<div class="list-item"><div><img src="${g.src}" style="height:50px; width:70px; object-fit:cover; border-radius:5px; margin-right:10px; vertical-align:middle;"> <strong>${g.alt}</strong> <span style="font-size:0.85rem;color:#888;">(${g.overlay})</span></div> 
-    <div class="actions">
-      <button class="btn-edit" onclick="openEditGallery(${g.id}, '${g.alt.replace(/'/g, "\\'")}', '${g.overlay.replace(/'/g, "\\'")}')"><i class="fa fa-edit"></i></button>
-      <button class="btn-del" onclick="delGallery(${g.id})"><i class="fa fa-trash"></i></button>
-    </div></div>`;
-  });
-}
-
-function openEditGallery(id, alt, overlay) {
-  document.getElementById('edit-gal-id').value = id;
-  document.getElementById('edit-gal-alt').value = alt;
-  document.getElementById('edit-gal-overlay').value = overlay;
-  document.getElementById('edit-modal').style.display = 'block';
-  document.getElementById('edit-overlap').style.display = 'block';
-}
-
-function closeEditGallery() {
-  document.getElementById('edit-modal').style.display = 'none';
-  document.getElementById('edit-overlap').style.display = 'none';
-}
-
-async function saveGalleryEdit() {
-  const id = document.getElementById('edit-gal-id').value;
-  const file = document.getElementById('edit-gal-file').files[0];
-  const alt = document.getElementById('edit-gal-alt').value;
-  const overlay = document.getElementById('edit-gal-overlay').value;
-  
-  const fd = new FormData();
-  if (file) fd.append('image', file);
-  fd.append('alt', alt);
-  fd.append('overlay', overlay);
-
-  const req = await fetch('/api/gallery/' + id, {
-    method: 'PUT',
-    headers: { 'Authorization': 'Bearer ' + token },
-    body: fd
-  });
-  if(req.status === 403) return logout();
-  closeEditGallery();
-  loadData();
-}
-
-
-async function addSkill() {
-  const n = document.getElementById('sk-name').value;
-  const p = document.getElementById('sk-pct').value;
-  if (!n) return alert('Name required');
-  const req = await fetch('/api/skills', { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}, body: JSON.stringify({name: n, pct: p}) });
-  if(req.status === 403) return logout();
-  document.getElementById('sk-name').value = ''; document.getElementById('sk-pct').value = '';
-  loadData();
-}
-async function delSkill(id) {
-  if(confirm("Are you sure?")) { const req = await fetch('/api/skills/' + id, {method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}}); if(req.status === 403) return logout(); loadData(); }
-}
-async function addTesti() {
-  const q = document.getElementById('ts-quote').value; const a = document.getElementById('ts-avatar').value;
-  const n = document.getElementById('ts-name').value; const r = document.getElementById('ts-role').value;
-  if (!q || !n) return alert('Quote and Name required');
-  const req = await fetch('/api/testimonials', { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}, body: JSON.stringify({quote: q, avatar: a, name: n, role: r}) });
-  if(req.status === 403) return logout();
-  document.getElementById('ts-quote').value = ''; document.getElementById('ts-avatar').value = '';
-  document.getElementById('ts-name').value = ''; document.getElementById('ts-role').value = '';
-  loadData();
-}
-async function delTesti(id) {
-  if(confirm("Are you sure?")) { const req = await fetch('/api/testimonials/' + id, {method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}}); if(req.status === 403) return logout(); loadData(); }
-}
-
-async function addService() {
-  const icon = document.getElementById('svc-icon').value;
-  const title = document.getElementById('svc-title').value;
-  const desc = document.getElementById('svc-desc').value;
-  if (!title || !desc) return alert('Title and description required');
-  const req = await fetch('/api/services', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ icon, title, desc })
-  });
-  if(req.status === 403) return logout();
-  document.getElementById('svc-title').value = '';
-  document.getElementById('svc-desc').value = '';
-  loadData();
-}
-async function delService(id) {
-  if(confirm("Are you sure?")) {
-    const req = await fetch('/api/services/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
-    if(req.status === 403) return logout();
-    loadData();
+function loadData() {
+  const stored = localStorage.getItem(DATA_KEY);
+  if (stored) {
+    data = JSON.parse(stored);
+  } else {
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    saveData();
   }
 }
-async function addGallery() {
-  const file = document.getElementById('gal-file').files[0];
-  const alt = document.getElementById('gal-alt').value;
-  const overlay = document.getElementById('gal-overlay').value;
-  if (!file) return alert('Please select an image file');
-  const fd = new FormData();
-  fd.append('image', file);
-  fd.append('alt', alt);
-  fd.append('overlay', overlay);
-  const req = await fetch('/api/gallery', {
-    method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, body: fd
-  });
-  if(req.status === 403) return logout();
-  document.getElementById('gal-file').value = '';
-  document.getElementById('gal-alt').value = '';
-  document.getElementById('gal-overlay').value = '';
-  loadData();
+
+function saveData() {
+  localStorage.setItem(DATA_KEY, JSON.stringify(data));
 }
-async function delGallery(id) {
-  if(confirm("Are you sure?")) {
-    const req = await fetch('/api/gallery/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
-    if(req.status === 403) return logout();
-    loadData();
+
+function updateStats() {
+  document.getElementById('stat-skills').textContent = data.skills?.length || 0;
+  document.getElementById('stat-services').textContent = data.services?.length || 0;
+  document.getElementById('stat-gallery').textContent = data.gallery?.length || 0;
+  document.getElementById('stat-messages').textContent = data.messages?.length || 0;
+}
+
+function renderAll() {
+  loadData();
+  renderProfile();
+  renderAbout();
+  renderContact();
+  renderStats();
+  renderSkills();
+  renderServices();
+  renderGallery();
+  renderTestimonials();
+  renderMessages();
+  updateStats();
+}
+
+function renderProfile() {
+  const p = data.profile || {};
+  document.getElementById('profile-name').value = p.name || '';
+  document.getElementById('profile-role').value = p.role || '';
+  document.getElementById('profile-tagline').value = p.tagline || '';
+  document.getElementById('profile-subtitle').value = p.subtitle ? p.subtitle.replace(/<br>/g,'\n') : '';
+}
+
+function renderAbout() {
+  const a = data.about || {};
+  document.getElementById('about-p1').value = a.p1 || '';
+  document.getElementById('about-p2').value = a.p2 || '';
+  document.getElementById('about-p3').value = a.p3 || '';
+}
+
+function renderContact() {
+  const c = data.contact || {};
+  document.getElementById('contact-location').value = c.location || '';
+  document.getElementById('contact-email').value = c.email || '';
+  document.getElementById('contact-phone').value = c.phone || '';
+  document.getElementById('contact-birthday').value = c.birthday || '';
+}
+
+function renderStats() {
+  const s = data.stats || {};
+  document.getElementById('stat-clients').value = s.clients || 0;
+  document.getElementById('stat-projects').value = s.projects || 0;
+  document.getElementById('stat-hours').value = s.hours || 0;
+  document.getElementById('stat-experience').value = s.experience || 0;
+}
+
+function renderSkills() {
+  const list = document.getElementById('skills-list');
+  if (!data.skills || data.skills.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="fa fa-code"></i> No skills added yet</div>';
+    return;
+  }
+  list.innerHTML = data.skills.map(s => `
+    <div class="list-item">
+      <div class="list-item-content">
+        <div class="title">${s.name}</div>
+        <div class="subtitle">${s.pct}%</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn-danger" onclick="deleteSkill(${s.id})"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderServices() {
+  const list = document.getElementById('services-list');
+  if (!data.services || data.services.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="fa fa-briefcase"></i> No services added yet</div>';
+    return;
+  }
+  list.innerHTML = data.services.map(s => `
+    <div class="list-item">
+      <div class="list-item-content">
+        <div class="title"><i class="fa ${s.icon}"></i> ${s.title}</div>
+        <div class="desc">${s.desc}</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn-danger" onclick="deleteService(${s.id})"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderGallery() {
+  const list = document.getElementById('gallery-list');
+  if (!data.gallery || data.gallery.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="fa fa-images"></i> No gallery images yet</div>';
+    return;
+  }
+  list.innerHTML = data.gallery.map(g => `
+    <div class="list-item">
+      <img src="${g.src}" class="list-item-img" alt="${g.alt}">
+      <div class="list-item-content">
+        <div class="title">${g.alt}</div>
+        <div class="subtitle">${g.overlay} | ${g.class}</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn-danger" onclick="deleteGallery(${g.id})"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTestimonials() {
+  const list = document.getElementById('testimonials-list');
+  if (!data.testimonials || data.testimonials.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="fa fa-quote-left"></i> No testimonials yet</div>';
+    return;
+  }
+  list.innerHTML = data.testimonials.map(t => `
+    <div class="list-item">
+      <div class="list-item-content">
+        <div class="title">${t.name} <span style="color:var(--gold)">${t.role}</span></div>
+        <div class="desc">"${t.quote}"</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn-danger" onclick="deleteTestimonial(${t.id})"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderMessages() {
+  const list = document.getElementById('messages-list');
+  if (!data.messages || data.messages.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="fa fa-envelope"></i> No messages yet</div>';
+    return;
+  }
+  list.innerHTML = data.messages.map((m, idx) => `
+    <div class="list-item">
+      <div class="list-item-content">
+        <div class="title">${m.name} <span style="color:var(--gold)">${m.email}</span></div>
+        <div class="desc">${m.message}</div>
+        ${m.attachment ? `<div style="margin-top:10px;"><i class="fa fa-paperclip"></i> <a href="${m.attachment.data}" download="${m.attachment.name}" style="color:var(--gold);text-decoration:underline;">${m.attachment.name}</a></div>` : ''}
+        <div class="subtitle" style="margin-top:8px">${new Date(m.timestamp).toLocaleString()}</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn-danger" onclick="deleteMessage(${idx})"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function deleteMessage(idx) {
+  if (!confirm('Delete this message?')) return;
+  data.messages.splice(idx, 1);
+  saveData();
+  renderMessages();
+  updateStats();
+  showToast('Message deleted successfully!');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function clearMessages() {
+  if (!data.messages || data.messages.length === 0) return showToast('No messages to clear');
+  if (!confirm('Are you sure you want to delete all messages? This cannot be undone.')) return;
+  data.messages = [];
+  saveData();
+  renderMessages();
+  updateStats();
+  showToast('All messages deleted!');
+}
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
+function saveProfile() {
+  data.profile = {
+    name: document.getElementById('profile-name').value,
+    role: document.getElementById('profile-role').value,
+    tagline: document.getElementById('profile-tagline').value,
+    subtitle: document.getElementById('profile-subtitle').value.replace(/\n/g,'<br>')
+  };
+  saveData();
+  alert('Profile saved!');
+}
+
+function saveAbout() {
+  data.about = {
+    p1: document.getElementById('about-p1').value,
+    p2: document.getElementById('about-p2').value,
+    p3: document.getElementById('about-p3').value
+  };
+  saveData();
+  alert('About section saved!');
+}
+
+function saveContact() {
+  data.contact = {
+    location: document.getElementById('contact-location').value,
+    email: document.getElementById('contact-email').value,
+    phone: document.getElementById('contact-phone').value,
+    birthday: document.getElementById('contact-birthday').value
+  };
+  saveData();
+  alert('Contact info saved!');
+}
+
+function saveStats() {
+  data.stats = {
+    clients: parseInt(document.getElementById('stat-clients').value) || 0,
+    projects: parseInt(document.getElementById('stat-projects').value) || 0,
+    hours: parseInt(document.getElementById('stat-hours').value) || 0,
+    experience: parseInt(document.getElementById('stat-experience').value) || 0
+  };
+  saveData();
+  updateStats();
+  alert('Stats saved!');
+}
+
+function addSkill() {
+  const name = document.getElementById('skill-name').value;
+  const pct = parseInt(document.getElementById('skill-pct').value);
+  if (!name || !pct) return alert('Please fill in all fields');
+  if (!data.skills) data.skills = [];
+  data.skills.push({id:Date.now(),name,pct});
+  saveData();
+  renderSkills();
+  updateStats();
+  document.getElementById('skill-name').value = '';
+  document.getElementById('skill-pct').value = '';
+}
+
+function deleteSkill(id) {
+  if (!confirm('Delete this skill?')) return;
+  data.skills = data.skills.filter(s => s.id !== id);
+  saveData();
+  renderSkills();
+  updateStats();
+}
+
+function addService() {
+  const icon = document.getElementById('service-icon').value;
+  const title = document.getElementById('service-title').value;
+  const desc = document.getElementById('service-desc').value;
+  if (!title || !desc) return alert('Please fill in all fields');
+  if (!data.services) data.services = [];
+  data.services.push({id:Date.now(),icon,title,desc});
+  saveData();
+  renderServices();
+  updateStats();
+  document.getElementById('service-title').value = '';
+  document.getElementById('service-desc').value = '';
+}
+
+function deleteService(id) {
+  if (!confirm('Delete this service?')) return;
+  data.services = data.services.filter(s => s.id !== id);
+  saveData();
+  renderServices();
+  updateStats();
+}
+
+let galleryImageData = '';
+
+function previewGalleryImage(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      galleryImageData = e.target.result;
+      document.getElementById('gallery-preview-img').src = galleryImageData;
+      document.getElementById('gallery-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
   }
 }
+
+function addGallery() {
+  const alt = document.getElementById('gallery-alt').value;
+  const overlay = document.getElementById('gallery-overlay').value;
+  const cls = document.getElementById('gallery-class').value;
+  if (!galleryImageData) return alert('Please select an image');
+  if (!alt) return alert('Please enter alt text');
+  
+  if (!data.gallery) data.gallery = [];
+  data.gallery.push({id:Date.now(),src:galleryImageData,alt,overlay,class:cls});
+  saveData();
+  renderGallery();
+  updateStats();
+  
+  galleryImageData = '';
+  document.getElementById('gallery-file').value = '';
+  document.getElementById('gallery-preview').style.display = 'none';
+  document.getElementById('gallery-alt').value = '';
+  document.getElementById('gallery-overlay').value = '';
+}
+
+function deleteGallery(id) {
+  if (!confirm('Delete this image?')) return;
+  data.gallery = data.gallery.filter(g => g.id !== id);
+  saveData();
+  renderGallery();
+  updateStats();
+}
+
+function addTestimonial() {
+  const quote = document.getElementById('testi-quote').value;
+  const name = document.getElementById('testi-name').value;
+  const role = document.getElementById('testi-role').value;
+  let avatar = document.getElementById('testi-avatar').value;
+  if (!quote || !name) return alert('Please fill in quote and author name');
+  if (!avatar) avatar = name.split(' ').map(n => n[0]).join('').toUpperCase();
+  if (!data.testimonials) data.testimonials = [];
+  data.testimonials.push({id:Date.now(),quote,avatar,name,role});
+  saveData();
+  renderTestimonials();
+  document.getElementById('testi-quote').value = '';
+  document.getElementById('testi-name').value = '';
+  document.getElementById('testi-role').value = '';
+  document.getElementById('testi-avatar').value = '';
+}
+
+function deleteTestimonial(id) {
+  if (!confirm('Delete this testimonial?')) return;
+  data.testimonials = data.testimonials.filter(t => t.id !== id);
+  saveData();
+  renderTestimonials();
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'portfolio-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      data = imported;
+      saveData();
+      renderAll();
+      alert('Data imported successfully!');
+    } catch(err) {
+      alert('Invalid JSON file');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetData() {
+  if (!confirm('Reset all data to defaults? This cannot be undone!')) return;
+  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  saveData();
+  renderAll();
+  alert('Data reset to defaults!');
+}
+
+function showRegister() {
+  const user = document.getElementById('login-user').value;
+  const pass = document.getElementById('login-pass').value;
+  if (!user || !pass) return alert('Enter username and password');
+  const admin = { username: user, password: btoa(pass) };
+  localStorage.setItem(ADMIN_KEY, JSON.stringify(admin));
+  alert('Admin account created! You can now login.');
+}
+
+function doLogin() {
+  const user = document.getElementById('login-user').value;
+  const pass = document.getElementById('login-pass').value;
+  if (user === 'amitrazbanc' && pass === 'school1122@') {
+    localStorage.setItem('admin_logged_in', 'true');
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    renderAll();
+  } else {
+    document.getElementById('login-err').textContent = 'Invalid credentials';
+  }
+}
+
 function logout() {
-  localStorage.removeItem('adminToken');
-  window.location.href = '/login.html';
+  localStorage.removeItem('admin_logged_in');
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('admin-app').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-err').textContent = '';
 }
-loadData();
+
+document.addEventListener('DOMContentLoaded', function() {
+  const loggedIn = localStorage.getItem('admin_logged_in') === 'true';
+  if (loggedIn) {
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    renderAll();
+  }
+});
 </script>
+<div class="toast" id="toast"></div>
 </body>
 </html>
