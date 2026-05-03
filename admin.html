@@ -276,7 +276,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
       <div class="card">
         <h2><span>Add</span> Gallery Image</h2>
         <div class="form-group">
-          <label>Choose Image</label>
+          <label>Select Image</label>
           <input type="file" id="gallery-file" accept="image/*" onchange="previewGalleryImage(this)">
           <div id="gallery-preview" style="margin-top:10px;display:none;">
             <img id="gallery-preview-img" style="max-width:200px;max-height:150px;border-radius:8px;border:2px solid var(--border);">
@@ -711,39 +711,65 @@ function deleteService(id) {
   updateStats();
 }
 
-let galleryImageData = '';
+let selectedGalleryImage = '';
 
 function previewGalleryImage(input) {
   if (input.files && input.files[0]) {
     const file = input.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      galleryImageData = e.target.result;
-      document.getElementById('gallery-preview-img').src = galleryImageData;
-      document.getElementById('gallery-preview').style.display = 'block';
-    };
-    reader.readAsDataURL(file);
+    selectedGalleryImage = file.name;
+    const preview = document.getElementById('gallery-preview');
+    const previewImg = document.getElementById('gallery-preview-img');
+    previewImg.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
   }
 }
 
 function addGallery() {
-  const alt = document.getElementById('gallery-alt').value;
-  const overlay = document.getElementById('gallery-overlay').value;
-  const cls = document.getElementById('gallery-class').value;
-  if (!galleryImageData) return alert('Please select an image');
-  if (!alt) return alert('Please enter alt text');
-  
-  if (!data.gallery) data.gallery = [];
-  data.gallery.push({id:Date.now(),src:galleryImageData,alt,overlay,class:cls});
-  saveData();
-  renderGallery();
-  updateStats();
-  
-  galleryImageData = '';
-  document.getElementById('gallery-file').value = '';
-  document.getElementById('gallery-preview').style.display = 'none';
-  document.getElementById('gallery-alt').value = '';
-  document.getElementById('gallery-overlay').value = '';
+  try {
+    const alt = document.getElementById('gallery-alt').value.trim();
+    const overlay = document.getElementById('gallery-overlay').value.trim();
+    const cls = document.getElementById('gallery-class').value;
+    const fileInput = document.getElementById('gallery-file');
+    
+    if (!selectedGalleryImage) {
+      alert('Please select an image first');
+      return;
+    }
+    if (!alt) {
+      alert('Please enter alt text');
+      return;
+    }
+    
+    const imagePath = 'Assert/images/' + selectedGalleryImage;
+    
+    if (!data.gallery) data.gallery = [];
+    data.gallery.push({
+      id: Date.now(),
+      src: imagePath,
+      alt: alt,
+      overlay: overlay || '',
+      class: cls || 'h-full'
+    });
+    
+    saveData();
+    renderGallery();
+    updateStats();
+    
+    // Show filename for user to copy
+    const filename = selectedGalleryImage;
+    
+    // Reset form
+    fileInput.value = '';
+    document.getElementById('gallery-preview').style.display = 'none';
+    document.getElementById('gallery-alt').value = '';
+    document.getElementById('gallery-overlay').value = '';
+    selectedGalleryImage = '';
+    
+    alert('Image added to gallery!\n\nIMPORTANT: Copy the file "' + filename + '" to the Assert/images/ folder in your project for it to display on the website.');
+  } catch (err) {
+    console.error('AddGallery error:', err);
+    alert('Error adding image: ' + err.message);
+  }
 }
 
 function deleteGallery(id) {

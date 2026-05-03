@@ -1,0 +1,807 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "index_html",
+      "label": "index.html",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": null,
+      "community": 2,
+      "norm_label": "index.html"
+    },
+    {
+      "id": "admin_html",
+      "label": "admin.html",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": null,
+      "community": 2,
+      "norm_label": "admin.html"
+    },
+    {
+      "id": "agents_md",
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "community": 8,
+      "norm_label": "agents.md"
+    },
+    {
+      "id": "sidebar",
+      "label": "Sidebar",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 18-37,190-217",
+      "community": 2,
+      "norm_label": "sidebar"
+    },
+    {
+      "id": "hero",
+      "label": "Hero Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 39-56,220-234",
+      "community": 0,
+      "norm_label": "hero section"
+    },
+    {
+      "id": "about",
+      "label": "About Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 66-84,236-266",
+      "community": 1,
+      "norm_label": "about section"
+    },
+    {
+      "id": "skills_section",
+      "label": "Skills Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 95-103,277-284",
+      "community": 0,
+      "norm_label": "skills section"
+    },
+    {
+      "id": "resume",
+      "label": "Resume Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 104-115,286-312",
+      "community": 9,
+      "norm_label": "resume section"
+    },
+    {
+      "id": "gallery_section",
+      "label": "Gallery Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 117-128,314-321",
+      "community": 4,
+      "norm_label": "gallery section"
+    },
+    {
+      "id": "services_section",
+      "label": "Services Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 129-136,323-330",
+      "community": 5,
+      "norm_label": "services section"
+    },
+    {
+      "id": "testimonials_section",
+      "label": "Testimonials Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 137-146,332-339",
+      "community": 6,
+      "norm_label": "testimonials section"
+    },
+    {
+      "id": "contact_section",
+      "label": "Contact Section",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 147-168,341-380",
+      "community": 1,
+      "norm_label": "contact section"
+    },
+    {
+      "id": "portfolio_data",
+      "label": "portfolio_data (localStorage)",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "line 395",
+      "community": 1,
+      "norm_label": "portfolio_data (localstorage)"
+    },
+    {
+      "id": "profile_object",
+      "label": "profile Object",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 398-399",
+      "community": 0,
+      "norm_label": "profile object"
+    },
+    {
+      "id": "about_object",
+      "label": "about Object",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 399",
+      "community": 1,
+      "norm_label": "about object"
+    },
+    {
+      "id": "contact_object",
+      "label": "contact Object",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 400",
+      "community": 1,
+      "norm_label": "contact object"
+    },
+    {
+      "id": "stats_object",
+      "label": "stats Object",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 401",
+      "community": 0,
+      "norm_label": "stats object"
+    },
+    {
+      "id": "skills_array",
+      "label": "skills Array",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 402-411",
+      "community": 0,
+      "norm_label": "skills array"
+    },
+    {
+      "id": "services_array",
+      "label": "services Array",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 412-419",
+      "community": 5,
+      "norm_label": "services array"
+    },
+    {
+      "id": "gallery_array",
+      "label": "gallery Array",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 420-426",
+      "community": 4,
+      "norm_label": "gallery array"
+    },
+    {
+      "id": "testimonials_array",
+      "label": "testimonials Array",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 427-431",
+      "community": 6,
+      "norm_label": "testimonials array"
+    },
+    {
+      "id": "messages_array",
+      "label": "messages Array",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "line 432",
+      "community": 3,
+      "norm_label": "messages array"
+    },
+    {
+      "id": "render_skills",
+      "label": "renderSkills() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 451-457",
+      "community": 0,
+      "norm_label": "renderskills() function"
+    },
+    {
+      "id": "render_services",
+      "label": "renderServices() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 459-462",
+      "community": 5,
+      "norm_label": "renderservices() function"
+    },
+    {
+      "id": "render_gallery",
+      "label": "renderGallery() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 464-467",
+      "community": 4,
+      "norm_label": "rendergallery() function"
+    },
+    {
+      "id": "render_testimonials",
+      "label": "renderTestimonials() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 469-472",
+      "community": 6,
+      "norm_label": "rendertestimonials() function"
+    },
+    {
+      "id": "render_profile",
+      "label": "renderProfile() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 483-506",
+      "community": 0,
+      "norm_label": "renderprofile() function"
+    },
+    {
+      "id": "render_stats",
+      "label": "renderStats() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 508-516",
+      "community": 0,
+      "norm_label": "renderstats() function"
+    },
+    {
+      "id": "render_all",
+      "label": "renderAll() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 474-481",
+      "community": 0,
+      "norm_label": "renderall() function"
+    },
+    {
+      "id": "load_data",
+      "label": "loadData() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 437-445",
+      "community": 1,
+      "norm_label": "loaddata() function"
+    },
+    {
+      "id": "save_data",
+      "label": "saveData() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 447-449",
+      "community": 1,
+      "norm_label": "savedata() function"
+    },
+    {
+      "id": "submit_feedback",
+      "label": "submitFeedback() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 525-551",
+      "community": 3,
+      "norm_label": "submitfeedback() function"
+    },
+    {
+      "id": "save_message",
+      "label": "saveMessage() Function",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": "lines 553-559",
+      "community": 3,
+      "norm_label": "savemessage() function"
+    },
+    {
+      "id": "admin_profile_tab",
+      "label": "Profile Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 124-208",
+      "community": 1,
+      "norm_label": "profile admin tab"
+    },
+    {
+      "id": "admin_skills_tab",
+      "label": "Skills Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 210-231",
+      "community": 0,
+      "norm_label": "skills admin tab"
+    },
+    {
+      "id": "admin_services_tab",
+      "label": "Services Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 233-272",
+      "community": 5,
+      "norm_label": "services admin tab"
+    },
+    {
+      "id": "admin_gallery_tab",
+      "label": "Gallery Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 274-309",
+      "community": 4,
+      "norm_label": "gallery admin tab"
+    },
+    {
+      "id": "admin_testimonials_tab",
+      "label": "Testimonials Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 311-341",
+      "community": 6,
+      "norm_label": "testimonials admin tab"
+    },
+    {
+      "id": "admin_messages_tab",
+      "label": "Messages Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 343-350",
+      "community": 3,
+      "norm_label": "messages admin tab"
+    },
+    {
+      "id": "admin_settings_tab",
+      "label": "Settings Admin Tab",
+      "file_type": "document",
+      "source_file": "admin.html",
+      "source_location": "lines 352-362",
+      "community": 7,
+      "norm_label": "settings admin tab"
+    },
+    {
+      "id": "data_key",
+      "label": "DATA_KEY Constant",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "line 367",
+      "community": 1,
+      "norm_label": "data_key constant"
+    },
+    {
+      "id": "admin_key",
+      "label": "ADMIN_KEY Constant",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "line 368",
+      "community": 10,
+      "norm_label": "admin_key constant"
+    },
+    {
+      "id": "export_data",
+      "label": "exportData() Function",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "lines 781-789",
+      "community": 7,
+      "norm_label": "exportdata() function"
+    },
+    {
+      "id": "import_data",
+      "label": "importData() Function",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "lines 791-807",
+      "community": 7,
+      "norm_label": "importdata() function"
+    },
+    {
+      "id": "reset_data",
+      "label": "resetData() Function",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "lines 809-815",
+      "community": 7,
+      "norm_label": "resetdata() function"
+    },
+    {
+      "id": "login_function",
+      "label": "Login Function",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "lines 826-837",
+      "community": 2,
+      "norm_label": "login function"
+    },
+    {
+      "id": "logout_function",
+      "label": "Logout Function",
+      "file_type": "code",
+      "source_file": "admin.html",
+      "source_location": "lines 839-846",
+      "community": 2,
+      "norm_label": "logout function"
+    },
+    {
+      "id": "images_folder",
+      "label": "Assert/images/ Folder",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "line 7",
+      "community": 11,
+      "norm_label": "assert/images/ folder"
+    },
+    {
+      "id": "contact_form",
+      "label": "Contact Form",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": "lines 367-378",
+      "community": 3,
+      "norm_label": "contact form"
+    }
+  ],
+  "links": [
+    {
+      "source": "index_html",
+      "target": "admin_html",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "admin.html",
+      "source_location": "line 100"
+    },
+    {
+      "source": "admin_html",
+      "target": "sidebar",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_html",
+      "target": "portfolio_data",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_html",
+      "target": "login_function",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_html",
+      "target": "logout_function",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "hero",
+      "target": "profile_object",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "about",
+      "target": "about_object",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "skills_section",
+      "target": "render_skills",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "gallery_section",
+      "target": "render_gallery",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "services_section",
+      "target": "render_services",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "testimonials_section",
+      "target": "render_testimonials",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "contact_section",
+      "target": "contact_object",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "portfolio_data",
+      "target": "profile_object",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "line 398"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "about_object",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "line 399"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "contact_object",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "line 400"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "stats_object",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "line 401"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "skills_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "lines 402-411"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "services_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "lines 412-419"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "gallery_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "lines 420-426"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "testimonials_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "lines 427-431"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "messages_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": "line 432"
+    },
+    {
+      "source": "portfolio_data",
+      "target": "load_data",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "portfolio_data",
+      "target": "save_data",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "portfolio_data",
+      "target": "admin_profile_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "portfolio_data",
+      "target": "data_key",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "profile_object",
+      "target": "render_profile",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "stats_object",
+      "target": "render_stats",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_array",
+      "target": "render_skills",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_array",
+      "target": "admin_skills_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "services_array",
+      "target": "render_services",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "services_array",
+      "target": "admin_services_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "gallery_array",
+      "target": "render_gallery",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "gallery_array",
+      "target": "admin_gallery_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "testimonials_array",
+      "target": "render_testimonials",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "testimonials_array",
+      "target": "admin_testimonials_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "messages_array",
+      "target": "save_message",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "messages_array",
+      "target": "admin_messages_tab",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_skills",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_services",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_gallery",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_testimonials",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_profile",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "render_stats",
+      "target": "render_all",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "submit_feedback",
+      "target": "save_message",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "submit_feedback",
+      "target": "contact_form",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_settings_tab",
+      "target": "export_data",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_settings_tab",
+      "target": "import_data",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "admin_settings_tab",
+      "target": "reset_data",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}
