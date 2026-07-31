@@ -8,7 +8,7 @@
   <meta name="referrer" content="no-referrer">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.__supaCdnFailed=true"></script>
   <style>
 :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.12);--gold-glow:rgba(201,168,76,0.3);--dark:#0c0f14;--dark2:#111520;--dark3:#161b26;--card:rgba(22,27,38,0.9);--text:#d4d8e0;--text-muted:#7a8499;--border:rgba(201,168,76,0.15);--r:10px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -406,7 +406,26 @@ const DATA_KEY = 'portfolio_data';
 const SUPABASE_URL = 'https://dsbrzllslpbqynuoivqx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzYnJ6bGxzbHBicXludW9pdnF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NTEwMDMsImV4cCI6MjA5MDIyNzAwM30.4fK9SfgNk1iVrk0MSHp957hgOsFaGo7C8u9ZD9seCv8';
 const IMG = SUPABASE_URL + '/storage/v1/object/public/images/';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabase = null;
+
+function initSupabase() {
+  if (supabase) return true;
+  if (window.supabase && window.supabase.createClient) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return true;
+  }
+  return false;
+}
+
+function loadSupabaseFallback() {
+  return new Promise(function(resolve) {
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/@supabase/supabase-js@2';
+    s.onload = function() { resolve(initSupabase()); };
+    s.onerror = function() { resolve(false); };
+    document.head.appendChild(s);
+  });
+}
 
 const DEFAULT_DATA = {
   images: {
@@ -783,6 +802,7 @@ function previewImage(input, previewId) {
 }
 
 async function uploadImage(file, prefix) {
+  if (!supabase) throw new Error('Supabase SDK not loaded');
   const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
   const path = prefix + '-' + Date.now() + '.' + ext;
   const { error } = await supabase.storage.from('images').upload(path, file, { upsert: true, contentType: file.type });
@@ -969,6 +989,10 @@ function doLogin() {
   const pass = document.getElementById('login-pass').value;
   if (!email || !pass) return;
   document.getElementById('login-err').textContent = '';
+  if (!supabase) {
+    document.getElementById('login-err').textContent = 'Supabase SDK failed to load. Check your internet or ad blocker, then refresh.';
+    return;
+  }
   supabase.auth.signInWithPassword({ email: email, password: pass })
     .then(({ error }) => {
       if (error) {
@@ -998,10 +1022,24 @@ function logout() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  supabase.auth.getUser().then(({ data }) => {
-    if (data.user) showApp();
-  });
+  if (!initSupabase()) {
+    loadSupabaseFallback().then(function(ok) {
+      if (!ok) {
+        document.getElementById('login-err').textContent = 'Failed to load Supabase SDK. Check your internet or ad blocker, then refresh.';
+        return;
+      }
+      checkSession();
+    });
+    return;
+  }
+  checkSession();
 });
+
+function checkSession() {
+  supabase.auth.getUser().then(function(res) {
+    if (res.data && res.data.user) showApp();
+  });
+}
 </script>
 <div class="toast" id="toast"></div>
 </body>
