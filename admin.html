@@ -8,6 +8,7 @@
   <meta name="referrer" content="no-referrer">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
 :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.12);--gold-glow:rgba(201,168,76,0.3);--dark:#0c0f14;--dark2:#111520;--dark3:#161b26;--card:rgba(22,27,38,0.9);--text:#d4d8e0;--text-muted:#7a8499;--border:rgba(201,168,76,0.15);--r:10px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -83,8 +84,8 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
   <div class="login-card">
     <h2>Admin <span>Login</span></h2>
     <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="login-user" placeholder="Enter username">
+      <label>Email</label>
+      <input type="email" id="login-user" placeholder="Enter email">
     </div>
     <div class="form-group">
       <label>Password</label>
@@ -130,7 +131,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>Sidebar Avatar</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="avatar-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" src="Assert/images/IMG_4273.JPG" alt="Avatar preview">
+              <img id="avatar-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" src="https://dsbrzllslpbqynuoivqx.supabase.co/storage/v1/object/public/images/IMG_4273.JPG" alt="Avatar preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('avatar-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="avatar-file" style="display:none" accept="image/*" onchange="previewImage(this,'avatar-preview')">
             </div>
@@ -139,7 +140,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>Hero Background</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="hero-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/Central Mall.jpg" alt="Hero preview">
+              <img id="hero-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="https://dsbrzllslpbqynuoivqx.supabase.co/storage/v1/object/public/images/Central%20Mall.jpg" alt="Hero preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('hero-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="hero-file" style="display:none" accept="image/*" onchange="previewImage(this,'hero-preview')">
             </div>
@@ -148,7 +149,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>About Me Image</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="about-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/profile.jpg" alt="About image preview">
+              <img id="about-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="https://dsbrzllslpbqynuoivqx.supabase.co/storage/v1/object/public/images/profile.jpg" alt="About image preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('about-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="about-file" style="display:none" accept="image/*" onchange="previewImage(this,'about-preview')">
             </div>
@@ -401,13 +402,17 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
 
 <script>
 const DATA_KEY = 'portfolio_data';
-const ADMIN_KEY = 'portfolio_admin';
+
+const SUPABASE_URL = 'https://dsbrzllslpbqynuoivqx.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzYnJ6bGxzbHBicXludW9pdnF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NTEwMDMsImV4cCI6MjA5MDIyNzAwM30.4fK9SfgNk1iVrk0MSHp957hgOsFaGo7C8u9ZD9seCv8';
+const IMG = SUPABASE_URL + '/storage/v1/object/public/images/';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const DEFAULT_DATA = {
   images: {
-    avatar: 'Assert/images/IMG_4273.JPG',
-    hero: 'Assert/images/Central Mall.jpg',
-    about: 'Assert/images/profile.jpg'
+    avatar: IMG+'IMG_4273.JPG',
+    hero: IMG+'Central Mall.jpg',
+    about: IMG+'profile.jpg'
   },
   profile: {
     name: 'Amit Rajbanshi',
@@ -452,9 +457,9 @@ const DEFAULT_DATA = {
     {id:6,icon:'fa-headset',title:'Technical Support',desc:'Ongoing maintenance, bug fixes, and technical consultation. I\'m here for the long haul.'}
   ],
   gallery: [
-    {id:1,src:'Assert/images/Image1.jpg',alt:'Mountain View',overlay:'Himalayan Adventure',class:'h-full'},
-    {id:2,src:'Assert/images/janaki Temple.jpg',alt:'Heritage Site',overlay:'Janaki Temple',class:'h-full'},
-    {id:3,src:'Assert/images/Namesta jharna.jpg',alt:'Way to Namesta Jharna',overlay:'Namesta Jharna',class:'h-full'}
+    {id:1,src:IMG+'Image1.jpg',alt:'Mountain View',overlay:'Himalayan Adventure',class:'h-full'},
+    {id:2,src:IMG+'janaki Temple.jpg',alt:'Heritage Site',overlay:'Janaki Temple',class:'h-full'},
+    {id:3,src:IMG+'Namesta jharna.jpg',alt:'Way to Namesta Jharna',overlay:'Namesta Jharna',class:'h-full'}
   ],
   testimonials: [
     {id:1,quote:'Amit delivered our web application on time and exceeded our expectations. His Java expertise is top-notch.',avatar:'RS',name:'Rajesh Sharma',role:'CEO, TechCorp Nepal'},
@@ -754,6 +759,10 @@ function deleteService(id) {
 let selectedAvatarImage = '';
 let selectedHeroImage = '';
 let selectedAboutImage = '';
+let avatarFile = null;
+let heroFile = null;
+let aboutFile = null;
+let galleryFile = null;
 
 function previewImage(input, previewId) {
   if (input.files && input.files[0]) {
@@ -762,54 +771,59 @@ function previewImage(input, previewId) {
     preview.src = URL.createObjectURL(file);
     if (previewId === 'avatar-preview') {
       selectedAvatarImage = file.name;
+      avatarFile = file;
     } else if (previewId === 'hero-preview') {
       selectedHeroImage = file.name;
+      heroFile = file;
     } else if (previewId === 'about-preview') {
       selectedAboutImage = file.name;
+      aboutFile = file;
     }
   }
 }
 
-function saveImages() {
+async function uploadImage(file, prefix) {
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  const path = prefix + '-' + Date.now() + '.' + ext;
+  const { error } = await supabase.storage.from('images').upload(path, file, { upsert: true, contentType: file.type });
+  if (error) throw new Error('Upload failed: ' + error.message);
+  return IMG + path;
+}
+
+async function saveImages() {
   try {
-    let avatarPath = data.images?.avatar || 'Assert/images/IMG_4273.JPG';
-    let heroPath = data.images?.hero || 'Assert/images/Central Mall.jpg';
-    let aboutPath = data.images?.about || 'Assert/images/profile.jpg';
+    let avatarPath = data.images?.avatar || IMG+'IMG_4273.JPG';
+    let heroPath = data.images?.hero || IMG+'Central Mall.jpg';
+    let aboutPath = data.images?.about || IMG+'profile.jpg';
     
-    if (selectedAvatarImage) {
-      avatarPath = 'Assert/images/' + selectedAvatarImage;
-    }
-    if (selectedHeroImage) {
-      heroPath = 'Assert/images/' + selectedHeroImage;
-    }
-    if (selectedAboutImage) {
-      aboutPath = 'Assert/images/' + selectedAboutImage;
-    }
+    if (avatarFile) avatarPath = await uploadImage(avatarFile, 'avatar');
+    if (heroFile) heroPath = await uploadImage(heroFile, 'hero');
+    if (aboutFile) aboutPath = await uploadImage(aboutFile, 'about');
     
     data.images = { avatar: avatarPath, hero: heroPath, about: aboutPath };
     saveData();
     
     let msg = 'Images saved!';
     if (selectedAvatarImage || selectedHeroImage || selectedAboutImage) {
-      msg += '\n\nCopy these files to Assert/images/:';
-      if (selectedAvatarImage) msg += '\n- ' + selectedAvatarImage;
-      if (selectedHeroImage) msg += '\n- ' + selectedHeroImage;
-      if (selectedAboutImage) msg += '\n- ' + selectedAboutImage;
+      msg += ' Uploaded to Supabase storage.';
     }
     alert(msg);
     
     selectedAvatarImage = '';
     selectedHeroImage = '';
     selectedAboutImage = '';
+    avatarFile = null;
+    heroFile = null;
+    aboutFile = null;
   } catch (err) {
     alert('Error saving images: ' + err.message);
   }
 }
 
 function renderImages() {
-  const avatarPath = data.images?.avatar || 'Assert/images/IMG_4273.JPG';
-  const heroPath = data.images?.hero || 'Assert/images/Central Mall.jpg';
-  const aboutPath = data.images?.about || 'Assert/images/profile.jpg';
+  const avatarPath = data.images?.avatar || IMG+'IMG_4273.JPG';
+  const heroPath = data.images?.hero || IMG+'Central Mall.jpg';
+  const aboutPath = data.images?.about || IMG+'profile.jpg';
   document.getElementById('avatar-preview').src = avatarPath;
   document.getElementById('hero-preview').src = heroPath;
   document.getElementById('about-preview').src = aboutPath;
@@ -818,6 +832,7 @@ function renderImages() {
 function previewGalleryImage(input) {
   if (input.files && input.files[0]) {
     const file = input.files[0];
+    galleryFile = file;
     selectedGalleryImage = file.name;
     const preview = document.getElementById('gallery-preview');
     const previewImg = document.getElementById('gallery-preview-img');
@@ -826,7 +841,7 @@ function previewGalleryImage(input) {
   }
 }
 
-function addGallery() {
+async function addGallery() {
   try {
     const alt = document.getElementById('gallery-alt').value.trim();
     const overlay = document.getElementById('gallery-overlay').value.trim();
@@ -842,7 +857,10 @@ function addGallery() {
       return;
     }
     
-    const imagePath = 'Assert/images/' + selectedGalleryImage;
+    let imagePath = IMG + selectedGalleryImage;
+    if (galleryFile) {
+      imagePath = await uploadImage(galleryFile, 'gallery');
+    }
     
     if (!data.gallery) data.gallery = [];
     data.gallery.push({
@@ -857,20 +875,18 @@ function addGallery() {
     renderGallery();
     updateStats();
     
-    // Show filename for user to copy
-    const filename = selectedGalleryImage;
-    
     // Reset form
     fileInput.value = '';
     document.getElementById('gallery-preview').style.display = 'none';
     document.getElementById('gallery-alt').value = '';
     document.getElementById('gallery-overlay').value = '';
     selectedGalleryImage = '';
+    galleryFile = null;
     
-    alert('Image added to gallery!\n\nIMPORTANT: Copy the file "' + filename + '" to the Assert/images/ folder in your project for it to display on the website.');
+    alert('Image added to gallery!');
   } catch (err) {
     console.error('AddGallery error:', err);
-    alert('Error adding image: ' + err.message);
+    alert('Error adding image: ' + err.message + ' The image was not added.');
   }
 }
 
@@ -942,44 +958,49 @@ function resetData() {
   alert('Data reset to defaults!');
 }
 
-function showRegister() {
-  const user = document.getElementById('login-user').value;
-  const pass = document.getElementById('login-pass').value;
-  if (!user || !pass) return alert('Enter username and password');
-  const admin = { username: user, password: btoa(pass) };
-  localStorage.setItem(ADMIN_KEY, JSON.stringify(admin));
-  alert('Admin account created! You can now login.');
+function showApp() {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('admin-app').style.display = 'block';
+  renderAll();
 }
 
 function doLogin() {
-  const user = document.getElementById('login-user').value;
+  const email = document.getElementById('login-user').value.trim();
   const pass = document.getElementById('login-pass').value;
-  if (user === 'amitrazbanc' && pass === 'school1122@') {
-    localStorage.setItem('admin_logged_in', 'true');
-    document.getElementById('login-page').style.display = 'none';
-    document.getElementById('admin-app').style.display = 'block';
-    renderAll();
-  } else {
-    document.getElementById('login-err').textContent = 'Invalid credentials';
-  }
+  if (!email || !pass) return;
+  document.getElementById('login-err').textContent = '';
+  supabase.auth.signInWithPassword({ email: email, password: pass })
+    .then(({ error }) => {
+      if (error) {
+        document.getElementById('login-err').textContent = error.message;
+      } else {
+        showApp();
+      }
+    })
+    .catch((err) => {
+      document.getElementById('login-err').textContent = 'Login failed: ' + err.message;
+    });
 }
 
 function logout() {
-  localStorage.removeItem('admin_logged_in');
-  document.getElementById('login-page').style.display = 'flex';
-  document.getElementById('admin-app').style.display = 'none';
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-err').textContent = '';
+  supabase.auth.signOut()
+    .then(() => {
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('admin-app').style.display = 'none';
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-err').textContent = '';
+    })
+    .catch(() => {
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('admin-app').style.display = 'none';
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  const loggedIn = localStorage.getItem('admin_logged_in') === 'true';
-  if (loggedIn) {
-    document.getElementById('login-page').style.display = 'none';
-    document.getElementById('admin-app').style.display = 'block';
-    renderAll();
-  }
+  supabase.auth.getUser().then(({ data }) => {
+    if (data.user) showApp();
+  });
 });
 </script>
 <div class="toast" id="toast"></div>
