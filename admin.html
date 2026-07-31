@@ -406,12 +406,12 @@ const DATA_KEY = 'portfolio_data';
 const SUPABASE_URL = 'https://dsbrzllslpbqynuoivqx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzYnJ6bGxzbHBicXludW9pdnF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NTEwMDMsImV4cCI6MjA5MDIyNzAwM30.4fK9SfgNk1iVrk0MSHp957hgOsFaGo7C8u9ZD9seCv8';
 const IMG = SUPABASE_URL + '/storage/v1/object/public/images/';
-let supabase = null;
+let supabaseClient = null;
 
 function initSupabase() {
-  if (supabase) return true;
+  if (supabaseClient) return true;
   if (window.supabase && window.supabase.createClient) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     return true;
   }
   return false;
@@ -802,10 +802,10 @@ function previewImage(input, previewId) {
 }
 
 async function uploadImage(file, prefix) {
-  if (!supabase) throw new Error('Supabase SDK not loaded');
+  if (!supabaseClient) throw new Error('Supabase SDK not loaded');
   const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
   const path = prefix + '-' + Date.now() + '.' + ext;
-  const { error } = await supabase.storage.from('images').upload(path, file, { upsert: true, contentType: file.type });
+  const { error } = await supabaseClient.storage.from('images').upload(path, file, { upsert: true, contentType: file.type });
   if (error) throw new Error('Upload failed: ' + error.message);
   return IMG + path;
 }
@@ -989,11 +989,11 @@ function doLogin() {
   const pass = document.getElementById('login-pass').value;
   if (!email || !pass) return;
   document.getElementById('login-err').textContent = '';
-  if (!supabase) {
+  if (!supabaseClient) {
     document.getElementById('login-err').textContent = 'Supabase SDK failed to load. Check your internet or ad blocker, then refresh.';
     return;
   }
-  supabase.auth.signInWithPassword({ email: email, password: pass })
+  supabaseClient.auth.signInWithPassword({ email: email, password: pass })
     .then(({ error }) => {
       if (error) {
         document.getElementById('login-err').textContent = error.message;
@@ -1007,7 +1007,7 @@ function doLogin() {
 }
 
 function logout() {
-  supabase.auth.signOut()
+  supabaseClient.auth.signOut()
     .then(() => {
       document.getElementById('login-page').style.display = 'flex';
       document.getElementById('admin-app').style.display = 'none';
@@ -1036,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function checkSession() {
-  supabase.auth.getUser().then(function(res) {
+  supabaseClient.auth.getUser().then(function(res) {
     if (res.data && res.data.user) showApp();
   });
 }
