@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Portfolio Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -128,7 +130,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>Sidebar Avatar</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="avatar-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" src="Assert/images/default-avatar.jpg">
+              <img id="avatar-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);" src="Assert/images/IMG_4273.JPG" alt="Avatar preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('avatar-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="avatar-file" style="display:none" accept="image/*" onchange="previewImage(this,'avatar-preview')">
             </div>
@@ -137,7 +139,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>Hero Background</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="hero-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/default-hero.jpg">
+              <img id="hero-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/Central Mall.jpg" alt="Hero preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('hero-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="hero-file" style="display:none" accept="image/*" onchange="previewImage(this,'hero-preview')">
             </div>
@@ -146,7 +148,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:#fff}
           <div class="form-group">
             <label>About Me Image</label>
             <div style="display:flex;align-items:center;gap:10px;">
-              <img id="about-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/default-about.jpg">
+              <img id="about-preview" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border);" src="Assert/images/profile.jpg" alt="About image preview">
               <button type="button" class="btn btn-sm" onclick="document.getElementById('about-file').click()"><i class="fa fa-upload"></i> Change</button>
               <input type="file" id="about-file" style="display:none" accept="image/*" onchange="previewImage(this,'about-preview')">
             </div>
@@ -403,9 +405,9 @@ const ADMIN_KEY = 'portfolio_admin';
 
 const DEFAULT_DATA = {
   images: {
-    avatar: 'Assert/images/profile.jpg',
-    hero: 'Assert/images/janaki Temple.jpg',
-    about: 'Assert/images/Namesta jharna.jpg'
+    avatar: 'Assert/images/IMG_4273.JPG',
+    hero: 'Assert/images/Central Mall.jpg',
+    about: 'Assert/images/profile.jpg'
   },
   profile: {
     name: 'Amit Rajbanshi',
@@ -451,10 +453,8 @@ const DEFAULT_DATA = {
   ],
   gallery: [
     {id:1,src:'Assert/images/Image1.jpg',alt:'Mountain View',overlay:'Himalayan Adventure',class:'h-full'},
-    {id:2,src:'Assert/images/gallery2.png',alt:'Temple',overlay:'Ancient Temple',class:'h-half'},
-    {id:3,src:'Assert/images/gallery3.png',alt:'Landscape',overlay:'Scenic Beauty',class:'h-half'},
-    {id:4,src:'Assert/images/gallery4.png',alt:'City',overlay:'City Lights',class:'wide'},
-    {id:5,src:'Assert/images/gallery5.png',alt:'Nature',overlay:'Natural Wonder',class:'h-half'}
+    {id:2,src:'Assert/images/janaki Temple.jpg',alt:'Heritage Site',overlay:'Janaki Temple',class:'h-full'},
+    {id:3,src:'Assert/images/Namesta jharna.jpg',alt:'Way to Namesta Jharna',overlay:'Namesta Jharna',class:'h-full'}
   ],
   testimonials: [
     {id:1,quote:'Amit delivered our web application on time and exceeded our expectations. His Java expertise is top-notch.',avatar:'RS',name:'Rajesh Sharma',role:'CEO, TechCorp Nepal'},
@@ -772,9 +772,9 @@ function previewImage(input, previewId) {
 
 function saveImages() {
   try {
-    let avatarPath = data.images?.avatar || 'Assert/images/profile.jpg';
-    let heroPath = data.images?.hero || 'Assert/images/janaki Temple.jpg';
-    let aboutPath = data.images?.about || 'Assert/images/Namesta jharna.jpg';
+    let avatarPath = data.images?.avatar || 'Assert/images/IMG_4273.JPG';
+    let heroPath = data.images?.hero || 'Assert/images/Central Mall.jpg';
+    let aboutPath = data.images?.about || 'Assert/images/profile.jpg';
     
     if (selectedAvatarImage) {
       avatarPath = 'Assert/images/' + selectedAvatarImage;
@@ -807,9 +807,9 @@ function saveImages() {
 }
 
 function renderImages() {
-  const avatarPath = data.images?.avatar || 'Assert/images/profile.jpg';
-  const heroPath = data.images?.hero || 'Assert/images/janaki Temple.jpg';
-  const aboutPath = data.images?.about || 'Assert/images/Namesta jharna.jpg';
+  const avatarPath = data.images?.avatar || 'Assert/images/IMG_4273.JPG';
+  const heroPath = data.images?.hero || 'Assert/images/Central Mall.jpg';
+  const aboutPath = data.images?.about || 'Assert/images/profile.jpg';
   document.getElementById('avatar-preview').src = avatarPath;
   document.getElementById('hero-preview').src = heroPath;
   document.getElementById('about-preview').src = aboutPath;
